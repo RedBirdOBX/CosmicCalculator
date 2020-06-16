@@ -89,7 +89,7 @@ const CalculateResults = () =>
     if (target.DistanceInMiles / milesInALightYear < 0.5)
     {
         htmlOutput += `<p><strong>${target.Name}</strong>, ${target.Description}, normally <strong>${FormatWithCommas(target.DistanceInMiles, 2)}</strong> miles `;
-        htmlOutput += `from our sun, would be <strong>${FormatWithCommas((target.DistanceInMiles / feetInAMile), 2)}</strong> feet away from our sun at this scale.</p>`;
+        htmlOutput += `from our sun, would be <strong>${FormatWithCommas((feetAwayFromTarget), 2)}</strong> feet away from our sun at this scale.</p>`;
     }
     else
     {
