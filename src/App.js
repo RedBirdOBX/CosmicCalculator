@@ -2,6 +2,8 @@ import React from 'react';
 import GrainOfSaltImg from './images/salt.jpg';
 import BBPelletImg from './images/bb.jpg';
 import GolfBallImg from './images/golf-ball.jpg';
+import BasketballImg from './images/basketball.jpg';
+import EarthImg from './images/earth.jpg';
 import JupiterImg from './images/jupiter.jpg';
 import NeptuneImg from './images/neptune.jpg';
 import AlphaCentariImg from './images/alpha-centari.jpg';
@@ -19,14 +21,16 @@ let sunSizes = [];
 let grainOfSalt = new SunSize(1, "Grain Of Salt", "grains of salt", 0.334, "salt.jpg");
 let bbPellet = new SunSize(2, "BB Pellet", "bb pellets", 4.43, "bb.jpg");
 let golfBall = new SunSize(3, "Golf Ball", "golf balls", 42.67, "golf-ball.jpg");
-sunSizes.push(grainOfSalt, bbPellet, golfBall);
+let basketball = new SunSize(4, "Basketball", "basketballs", 241.55, "golf-ball.jpg");
+sunSizes.push(grainOfSalt, bbPellet, golfBall, basketball);
 
 let targets = [];
 let jupiter = new Target(1, "Jupiter", "our largest planet", 481000000);
 let neptune = new Target(2, "Neptune", "our most distant planet", 2793000000);
 let alphaCentari = new Target(3, "Alpha Centari", "our closest star", (milesInALightYear * 4.367));
 let polaris = new Target(4, "Polaris", "also known as the 'North Star'", (milesInALightYear * 434));
-targets.push(jupiter, neptune, alphaCentari, polaris);
+let earth = new Target(5, "Earth", "our home", 94437000);
+targets.push(jupiter, neptune, alphaCentari, polaris, earth);
 
 
 // global functions
@@ -44,6 +48,9 @@ const CalculateResults = () =>
     // get vals from drop downs
     const selectedSunSize = document.getElementById("SizeSelectorDropDown");
     const selectedTarget = document.getElementById("TargetSelectorDropDown");
+
+    const earthImg = document.getElementById("EarthImg");
+    earthImg.setAttribute("class", "d-none");
 
     const jupiterImg = document.getElementById("JupiterImg");
     jupiterImg.setAttribute("class", "d-none");
@@ -66,6 +73,8 @@ const CalculateResults = () =>
     const golfBallImg = document.getElementById("GolfBallImg");
     golfBallImg.setAttribute("class", "d-none");
 
+    const basketballImg = document.getElementById("BasketballImg");
+    basketballImg.setAttribute("class", "d-none");
 
     // selected objects (from drop downs)
     let sunSize = sunSizes[selectedSunSize.value-1];
@@ -180,6 +189,7 @@ class App extends React.Component
         const saltImg = document.getElementById("SaltImg");
         const bbImg = document.getElementById("BBImg");
         const golfBallImg = document.getElementById("GolfBallImg");
+        const basketballImg = document.getElementById("BasketballImg");
 
         switch (parseInt(selectedSunSize.value))
         {
@@ -192,6 +202,7 @@ class App extends React.Component
                 saltImg.setAttribute("class", "w-75");
                 bbImg.setAttribute("class", "d-none");
                 golfBallImg.setAttribute("class", "d-none");
+                basketballImg.setAttribute("class", "d-none");                
                 break;
 
             // bb
@@ -199,10 +210,12 @@ class App extends React.Component
                 saltImg.removeAttribute("class");
                 bbImg.removeAttribute("class");
                 golfBallImg.removeAttribute("class");
+                basketballImg.removeAttribute("class");
 
                 saltImg.setAttribute("class", "d-none");
                 bbImg.setAttribute("class", "w-75");
                 golfBallImg.setAttribute("class", "d-none");
+                basketballImg.setAttribute("class", "d-none");                
                 break;
 
             // golf ball
@@ -210,20 +223,37 @@ class App extends React.Component
                 saltImg.removeAttribute("class");
                 bbImg.removeAttribute("class");
                 golfBallImg.removeAttribute("class");
+                basketballImg.removeAttribute("class");
 
                 saltImg.setAttribute("class", "d-none");
                 bbImg.setAttribute("class", "d-none");
                 golfBallImg.setAttribute("class", "w-75");
+                basketballImg.setAttribute("class", "d-none");                
                 break;
 
-            default:
+            // basektball
+            case 4:
                 saltImg.removeAttribute("class");
                 bbImg.removeAttribute("class");
                 golfBallImg.removeAttribute("class");
+                basketballImg.removeAttribute("class");
 
                 saltImg.setAttribute("class", "d-none");
                 bbImg.setAttribute("class", "d-none");
                 golfBallImg.setAttribute("class", "d-none");
+                basketballImg.setAttribute("class", "w-75");                
+                break;
+
+                default:
+                saltImg.removeAttribute("class");
+                bbImg.removeAttribute("class");
+                golfBallImg.removeAttribute("class");
+                basketballImg.removeAttribute("class");
+
+                saltImg.setAttribute("class", "d-none");
+                bbImg.setAttribute("class", "d-none");
+                golfBallImg.setAttribute("class", "d-none");
+                basketballImg.setAttribute("class", "d-none");                
         }
     };
 
@@ -275,7 +305,7 @@ class App extends React.Component
                 polarisImg.setAttribute("class", "d-none");
                 break;
 
-            // alpha centari
+            // earth
             case 4:
                 jupiterImg.removeAttribute("class");
                 neptuneImg.removeAttribute("class");
@@ -350,12 +380,14 @@ class SizeSelector extends React.Component
                         <option value="1">Grain of Salt (0.33 mm)</option>
                         <option value="2">BB Pellet (4.43 mm)</option>
                         <option value="3">Golf Ball (42.67 mm)</option>
+                        <option value="4">Basketball (241.55 mm)</option>
                     </select>
                 </div>
                 <div className="col-sm-4 text-center">
                     <img id="SaltImg" src={GrainOfSaltImg} alt="size of sun" className="w-75" />
                     <img id="BBImg" src={BBPelletImg} alt="size of sun" className="d-none" />
                     <img id="GolfBallImg" src={GolfBallImg} alt="size of sun" className="d-none" />
+                    <img id="BasketballImg" src={BasketballImg} alt="size of sun" className="d-none" />
                 </div>
             </div>);
     }
@@ -369,6 +401,7 @@ class TargetSelector extends React.Component
                     <label className="col-sm-4 col-form-label text-right">Select the distant target</label>
                     <div className="col-sm-4">
                     <select id="TargetSelectorDropDown" className="form-control" onChange={this.props.OnChangeEvent}>
+                            <option value="5">Earth (94,437,000 miles)</option>
                             <option value="1">Jupiter (481,000,000 miles)</option>
                             <option value="2">Neptune (2,793,000,000 miles)</option>
                             <option value="3">Alpha Centari (4.37 light years)</option>
@@ -376,7 +409,8 @@ class TargetSelector extends React.Component
                         </select>
                     </div>
                     <div className="col-sm-4 text-center">
-                        <img id="JupiterImg" src={JupiterImg} alt="target" className="w-75" />
+                        <img id="EarthImg" src={EarthImg} alt="target" className="w-75" />
+                        <img id="JupiterImg" src={JupiterImg} alt="target" className="d-none" />
                         <img id="NeptuneImg" src={NeptuneImg} alt="target" className="d-none" />
                         <img id="AlphaCentariImg" src={AlphaCentariImg} alt="target" className="d-none" />
                         <img id="PolarisImg" src={PolarisImg} alt="target" className="d-none" />
