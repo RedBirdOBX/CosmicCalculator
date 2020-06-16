@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/7e05dc19-1660-4889-9b5a-4f15ead1b8a9/resourceGroups/DSF-Resource-Group/providers/Microsoft.Web/sites/cosmic-calculator",
+    "appService.deploySubpath": "build"
+}

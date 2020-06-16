@@ -9,7 +9,7 @@ import PolarisImg from './images/polaris.jpg';
 
 
 // global consts
-const diameterOfSunInMiles = 865000;
+const diameterOfSunInMiles = 865370;
 const milesInALightYear = 5880000000000;
 const mmsInAnInch = 25.4;
 const inchesInFoot = 12;
@@ -44,6 +44,28 @@ const CalculateResults = () =>
     // get vals from drop downs
     const selectedSunSize = document.getElementById("SizeSelectorDropDown");
     const selectedTarget = document.getElementById("TargetSelectorDropDown");
+
+    const jupiterImg = document.getElementById("JupiterImg");
+    jupiterImg.setAttribute("class", "d-none");
+
+    const neptuneImg = document.getElementById("NeptuneImg");
+    neptuneImg.setAttribute("class", "d-none");
+
+    const alphaCentariImg = document.getElementById("AlphaCentariImg");
+    alphaCentariImg.setAttribute("class", "d-none");
+
+    const polarisImg = document.getElementById("PolarisImg");
+    polarisImg.setAttribute("class", "d-none");
+
+    const saltImg = document.getElementById("SaltImg");
+    saltImg.setAttribute("class", "d-none");
+
+    const bbImg = document.getElementById("BBImg");
+    bbImg.setAttribute("class", "d-none");
+
+    const golfBallImg = document.getElementById("GolfBallImg");
+    golfBallImg.setAttribute("class", "d-none");
+
 
     // selected objects (from drop downs)
     let sunSize = sunSizes[selectedSunSize.value-1];
@@ -305,11 +327,11 @@ class Header extends React.Component
                 <div className="my-5">
                     <div className="display-4 my-5 text-center">Cosmic Calculator</div>
                     <p className="lead">
-                        Our sun is 864,000 midles in diameter.  It would take 109 of our Earths to cover the width of our sun.
+                        Our sun is 865,370 miles in diameter.  It would take 109 of our Earths to cover the width of our sun.
                     </p>
                     <p className="lead">
-                        Imagine you shrink the size of our sun down to a small object and the rest of the universe would also
-                        shrink down to the same scale. How far away would Jupiter be?  The Earth?  Alpha Centari - our closest star?
+                        Imagine if you could shrink the size of our sun down to a small object and the rest of the universe would also
+                        shrink down to the same scale. How far away would Jupiter be?  Neptune?  Alpha Centari - our closest star?
                     </p>
                 </div>
                 );
