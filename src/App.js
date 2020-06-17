@@ -10,12 +10,14 @@ import AlphaCentariImg from './images/alpha-centari.jpg';
 import PolarisImg from './images/polaris.jpg';
 
 
-// global consts
+// globals
 const diameterOfSunInMiles = 865370;
 const milesInALightYear = 5880000000000;
 const mmsInAnInch = 25.4;
 const inchesInFoot = 12;
 const feetInAMile = 5820;
+let imagesToHide = [];
+let imagesToShow = [];
 
 let sunSizes = [];
 let grainOfSalt = new SunSize(1, "Grain Of Salt", "grains of salt", 0.334, "salt.jpg");
@@ -25,56 +27,34 @@ let basketball = new SunSize(4, "Basketball", "basketballs", 241.55, "golf-ball.
 sunSizes.push(grainOfSalt, bbPellet, golfBall, basketball);
 
 let targets = [];
-let jupiter = new Target(1, "Jupiter", "our largest planet", 481000000);
-let neptune = new Target(2, "Neptune", "our most distant planet", 2793000000);
-let alphaCentari = new Target(3, "Alpha Centari", "our closest star", (milesInALightYear * 4.367));
-let polaris = new Target(4, "Polaris", "also known as the 'North Star'", (milesInALightYear * 434));
-let earth = new Target(5, "Earth", "our home", 94437000);
-targets.push(jupiter, neptune, alphaCentari, polaris, earth);
+let earth = new Target(1, "Earth", "our home", 94437000);
+let jupiter = new Target(2, "Jupiter", "our largest planet", 481000000);
+let neptune = new Target(3, "Neptune", "our most distant planet", 2793000000);
+let alphaCentari = new Target(4, "Alpha Centari", "our closest star", (milesInALightYear * 4.367));
+let polaris = new Target(5, "Polaris", "also known as the 'North Star'", (milesInALightYear * 434));
+targets.push(earth, jupiter, neptune, alphaCentari, polaris);
 
 
 // global functions
 const ShowResults = () =>
 {
-    let resultsContainer = document.getElementById("ResultsContainer");
+    const resultsContainer = document.getElementById("ResultsContainer");
     resultsContainer.removeAttribute("class");
     resultsContainer.setAttribute("class", "my-b");
+    
+    imagesToShow = []
+    imagesToHide = [];
+    imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "AlphaCentariImg", "PolarisImg", "SaltImg", "BBImg", "GolfBallImg", "BasketballImg");
 
+    ImageManager(imagesToHide, imagesToShow);
     CalculateResults();
 };
 
 const CalculateResults = () =>
 {
-    // get vals from drop downs
     const selectedSunSize = document.getElementById("SizeSelectorDropDown");
     const selectedTarget = document.getElementById("TargetSelectorDropDown");
-
-    const earthImg = document.getElementById("EarthImg");
-    earthImg.setAttribute("class", "d-none");
-
-    const jupiterImg = document.getElementById("JupiterImg");
-    jupiterImg.setAttribute("class", "d-none");
-
-    const neptuneImg = document.getElementById("NeptuneImg");
-    neptuneImg.setAttribute("class", "d-none");
-
-    const alphaCentariImg = document.getElementById("AlphaCentariImg");
-    alphaCentariImg.setAttribute("class", "d-none");
-
-    const polarisImg = document.getElementById("PolarisImg");
-    polarisImg.setAttribute("class", "d-none");
-
-    const saltImg = document.getElementById("SaltImg");
-    saltImg.setAttribute("class", "d-none");
-
-    const bbImg = document.getElementById("BBImg");
-    bbImg.setAttribute("class", "d-none");
-
-    const golfBallImg = document.getElementById("GolfBallImg");
-    golfBallImg.setAttribute("class", "d-none");
-
-    const basketballImg = document.getElementById("BasketballImg");
-    basketballImg.setAttribute("class", "d-none");
+    const resultsOutput = document.getElementById("ResultsOutput");
 
     // selected objects (from drop downs)
     let sunSize = sunSizes[selectedSunSize.value-1];
@@ -131,9 +111,35 @@ const CalculateResults = () =>
     htmlOutput += "<p>&nbsp;</p>";
     htmlOutput += `<p><small><em>((((milesAwayFromAlphaCenari / milesInMM) / mmsInAnInch) / inchesInFoot) / feetInAMile): ${formula}</em></small></p>`;
 
-    let resultsOutput = document.getElementById("ResultsOutput");
     resultsOutput.innerHTML = htmlOutput;
 };
+
+const ImageManager = (imageIdsToHide, imageIdsToShow) =>
+{
+    imageIdsToHide.forEach(HideImage);
+    imageIdsToShow.forEach(ShowImage);
+};
+
+const HideImage = (imageId) => 
+{
+    let imageToHide = document.getElementById(imageId);
+    if(imageToHide !== null)
+    {
+        imageToHide.removeAttribute("class");
+        imageToHide.setAttribute("class","d-none");
+    }
+};
+
+const ShowImage = (imageId) => 
+{
+    let imageToShow = document.getElementById(imageId);
+    if(imageToShow !== null)
+    {
+        imageToShow.removeAttribute("class");
+        imageToShow.setAttribute("class","w-75");
+    }
+};
+
 
 const FormatWithCommas = (input, decimalPlaces) =>
 {
@@ -186,149 +192,79 @@ class App extends React.Component
     SizeChanged = () =>
     {
         const selectedSunSize = document.getElementById("SizeSelectorDropDown");
-        const saltImg = document.getElementById("SaltImg");
-        const bbImg = document.getElementById("BBImg");
-        const golfBallImg = document.getElementById("GolfBallImg");
-        const basketballImg = document.getElementById("BasketballImg");
-
+        imagesToHide = [];
+        imagesToShow = [];
+    
         switch (parseInt(selectedSunSize.value))
         {
             // salt
             case 1:
-                saltImg.removeAttribute("class");
-                bbImg.removeAttribute("class");
-                golfBallImg.removeAttribute("class");
-
-                saltImg.setAttribute("class", "w-75");
-                bbImg.setAttribute("class", "d-none");
-                golfBallImg.setAttribute("class", "d-none");
-                basketballImg.setAttribute("class", "d-none");                
+                imagesToHide.push("BBImg", "GolfBallImg", "BasketballImg");
+                imagesToShow.push("SaltImg");
                 break;
-
             // bb
             case 2:
-                saltImg.removeAttribute("class");
-                bbImg.removeAttribute("class");
-                golfBallImg.removeAttribute("class");
-                basketballImg.removeAttribute("class");
-
-                saltImg.setAttribute("class", "d-none");
-                bbImg.setAttribute("class", "w-75");
-                golfBallImg.setAttribute("class", "d-none");
-                basketballImg.setAttribute("class", "d-none");                
+                imagesToHide.push("SaltImg", "GolfBallImg", "BasketballImg");
+                imagesToShow.push("BBImg");
                 break;
-
             // golf ball
             case 3:
-                saltImg.removeAttribute("class");
-                bbImg.removeAttribute("class");
-                golfBallImg.removeAttribute("class");
-                basketballImg.removeAttribute("class");
-
-                saltImg.setAttribute("class", "d-none");
-                bbImg.setAttribute("class", "d-none");
-                golfBallImg.setAttribute("class", "w-75");
-                basketballImg.setAttribute("class", "d-none");                
+                imagesToHide.push("SaltImg", "BBImg", "BasketballImg");
+                imagesToShow.push("GolfBallImg");
                 break;
-
             // basektball
             case 4:
-                saltImg.removeAttribute("class");
-                bbImg.removeAttribute("class");
-                golfBallImg.removeAttribute("class");
-                basketballImg.removeAttribute("class");
-
-                saltImg.setAttribute("class", "d-none");
-                bbImg.setAttribute("class", "d-none");
-                golfBallImg.setAttribute("class", "d-none");
-                basketballImg.setAttribute("class", "w-75");                
+                imagesToHide.push("SaltImg", "BBImg", "GolfBallImg");
+                imagesToShow.push("BasketballImg");
                 break;
 
                 default:
-                saltImg.removeAttribute("class");
-                bbImg.removeAttribute("class");
-                golfBallImg.removeAttribute("class");
-                basketballImg.removeAttribute("class");
-
-                saltImg.setAttribute("class", "d-none");
-                bbImg.setAttribute("class", "d-none");
-                golfBallImg.setAttribute("class", "d-none");
-                basketballImg.setAttribute("class", "d-none");                
+                    imagesToHide.push("SaltImg", "BBImg", "GolfBallImg","BasketballImg");
+    
         }
+
+        ImageManager(imagesToHide, imagesToShow);
     };
 
     TargetChanged = () => {
+
         const selectedTarget = document.getElementById("TargetSelectorDropDown");
-        const jupiterImg = document.getElementById("JupiterImg");
-        const neptuneImg = document.getElementById("NeptuneImg");
-        const alphaCentariImg = document.getElementById("AlphaCentariImg");
-        const polarisImg = document.getElementById("PolarisImg");
+        imagesToHide = [];
+        imagesToShow = [];
 
         switch (parseInt(selectedTarget.value))
         {
-            // jupiter
-            case 1:
-                jupiterImg.removeAttribute("class");
-                neptuneImg.removeAttribute("class");
-                alphaCentariImg.removeAttribute("class");
-                polarisImg.removeAttribute("class");
-
-                jupiterImg.setAttribute("class", "w-75");
-                neptuneImg.setAttribute("class", "d-none");
-                alphaCentariImg.setAttribute("class", "d-none");
-                polarisImg.setAttribute("class", "d-none");
-                break;
-
-            // neptune
-            case 2:
-                jupiterImg.removeAttribute("class");
-                neptuneImg.removeAttribute("class");
-                alphaCentariImg.removeAttribute("class");
-                polarisImg.removeAttribute("class");
-
-                jupiterImg.setAttribute("class", "d-none");
-                neptuneImg.setAttribute("class", "w-75");
-                alphaCentariImg.setAttribute("class", "d-none");
-                polarisImg.setAttribute("class", "d-none");
-                break;
-
-            // alpha centari
-            case 3:
-                jupiterImg.removeAttribute("class");
-                neptuneImg.removeAttribute("class");
-                alphaCentariImg.removeAttribute("class");
-                polarisImg.removeAttribute("class");
-
-                jupiterImg.setAttribute("class", "d-none");
-                neptuneImg.setAttribute("class", "d-none");
-                alphaCentariImg.setAttribute("class", "w-75");
-                polarisImg.setAttribute("class", "d-none");
-                break;
-
             // earth
+            case 1:
+                imagesToHide.push("JupiterImg", "NeptuneImg", "AlphaCentariImg", "PolarisImg");
+                imagesToShow.push("EarthImg");
+                break;
+            // jupiter
+            case 2:
+                imagesToHide.push("EarthImg", "NeptuneImg", "AlphaCentariImg", "PolarisImg");
+                imagesToShow.push("JupiterImg");
+                break;
+            // neptune
+            case 3:
+                imagesToHide.push("EarthImg", "JupiterImg", "AlphaCentariImg", "PolarisImg");
+                imagesToShow.push("NeptuneImg");
+                break;
+            // alpha centari
             case 4:
-                jupiterImg.removeAttribute("class");
-                neptuneImg.removeAttribute("class");
-                alphaCentariImg.removeAttribute("class");
-                polarisImg.removeAttribute("class");
-
-                jupiterImg.setAttribute("class", "d-none");
-                neptuneImg.setAttribute("class", "d-none");
-                alphaCentariImg.setAttribute("class", "d-none");
-                polarisImg.setAttribute("class", "w-75");
+                imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "PolarisImg");
+                imagesToShow.push("AlphaCentariImg");
+                break;
+            // polaris
+            case 5:
+                imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "AlphaCentariImg");
+                imagesToShow.push("PolarisImg");
                 break;
 
                 default:
-                jupiterImg.removeAttribute("class");
-                neptuneImg.removeAttribute("class");
-                alphaCentariImg.removeAttribute("class");
-                polarisImg.removeAttribute("class");
-
-                jupiterImg.setAttribute("class", "d-none");
-                neptuneImg.setAttribute("class", "d-none");
-                alphaCentariImg.setAttribute("class", "d-none");
-                polarisImg.setAttribute("class", "d-none");
+                    imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "AlphaCentariImg", "Polaris");
         }
+
+        ImageManager(imagesToHide, imagesToShow);
     };
 
     render()
@@ -401,11 +337,11 @@ class TargetSelector extends React.Component
                     <label className="col-sm-4 col-form-label text-right">Select the distant target</label>
                     <div className="col-sm-4">
                     <select id="TargetSelectorDropDown" className="form-control" onChange={this.props.OnChangeEvent}>
-                            <option value="5">Earth (94,437,000 miles)</option>
-                            <option value="1">Jupiter (481,000,000 miles)</option>
-                            <option value="2">Neptune (2,793,000,000 miles)</option>
-                            <option value="3">Alpha Centari (4.37 light years)</option>
-                            <option value="4">Polaris "North Star" (434 light years)</option>
+                            <option value="1">Earth (94,437,000 miles)</option>
+                            <option value="2">Jupiter (481,000,000 miles)</option>
+                            <option value="3">Neptune (2,793,000,000 miles)</option>
+                            <option value="4">Alpha Centari (4.37 light years)</option>
+                            <option value="5">Polaris "North Star" (434 light years)</option>
                         </select>
                     </div>
                     <div className="col-sm-4 text-center">
