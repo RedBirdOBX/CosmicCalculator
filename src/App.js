@@ -1,14 +1,11 @@
 import React from 'react';
-import GrainOfSaltImg from './images/salt.jpg';
-import BBPelletImg from './images/bb.jpg';
-import GolfBallImg from './images/golf-ball.jpg';
-import BasketballImg from './images/basketball.jpg';
-import EarthImg from './images/earth.jpg';
-import JupiterImg from './images/jupiter.jpg';
-import NeptuneImg from './images/neptune.jpg';
-import AlphaCentariImg from './images/alpha-centari.jpg';
-import PolarisImg from './images/polaris.jpg';
 
+// components
+import Results from './components/Results';
+import CalculateButton from './components/CalculateButton';
+import Header from './components/Header';
+import TargetSelector from './components/TargetSelector';
+import SizeSelector from './components/SizeSelector';
 
 // globals
 const diameterOfSunInMiles = 865370;
@@ -140,7 +137,6 @@ const ShowImage = (imageId) =>
     }
 };
 
-
 const FormatWithCommas = (input, decimalPlaces) =>
 {
     // only displays upto 2 decimal places due to the comma insertions.
@@ -172,8 +168,6 @@ function Target(index, name, description, milesAway) {
     this.Description = description;
     this.DistanceInMiles = milesAway;
 }
-
-
 
 // components
 class App extends React.Component
@@ -279,103 +273,6 @@ class App extends React.Component
                         <CalculateButton ClickEvent={ShowResults} />
                         <Results />
                     </div>
-                </div>
-            </div>
-        );
-    }
-}
-
-class Header extends React.Component
-{
-    render()
-    {
-        return (
-                <div className="my-5">
-                    <div className="display-4 my-5 text-center">Cosmic Calculator</div>
-                    <p className="lead">
-                        Our sun is 865,370 miles in diameter.  It would take 109 of our Earths to cover the width of our sun.
-                    </p>
-                    <p className="lead">
-                        Imagine if you could shrink the size of our sun down to a small object and the rest of the universe would also
-                        shrink down to the same scale. How far away would Jupiter be?  Neptune?  Alpha Centari - our closest star?
-                    </p>
-                </div>
-                );
-    }
-}
-
-class SizeSelector extends React.Component
-{
-    render()
-    {
-        return (
-            <div className="form-group row">
-                <label className="col-sm-4 col-form-label text-right">Select the size of our sun</label>
-                <div className="col-sm-4">
-                    <select id="SizeSelectorDropDown" className="form-control" onChange={this.props.OnChangeEvent}>
-                        <option value="1">Grain of Salt (0.33 mm)</option>
-                        <option value="2">BB Pellet (4.43 mm)</option>
-                        <option value="3">Golf Ball (42.67 mm)</option>
-                        <option value="4">Basketball (241.55 mm)</option>
-                    </select>
-                </div>
-                <div className="col-sm-4 text-center">
-                    <img id="SaltImg" src={GrainOfSaltImg} alt="size of sun" className="w-75" />
-                    <img id="BBImg" src={BBPelletImg} alt="size of sun" className="d-none" />
-                    <img id="GolfBallImg" src={GolfBallImg} alt="size of sun" className="d-none" />
-                    <img id="BasketballImg" src={BasketballImg} alt="size of sun" className="d-none" />
-                </div>
-            </div>);
-    }
-}
-
-class TargetSelector extends React.Component
-{
-    render()
-    {
-        return (<div className="form-group row">
-                    <label className="col-sm-4 col-form-label text-right">Select the distant target</label>
-                    <div className="col-sm-4">
-                    <select id="TargetSelectorDropDown" className="form-control" onChange={this.props.OnChangeEvent}>
-                            <option value="1">Earth (94,437,000 miles)</option>
-                            <option value="2">Jupiter (481,000,000 miles)</option>
-                            <option value="3">Neptune (2,793,000,000 miles)</option>
-                            <option value="4">Alpha Centari (4.37 light years)</option>
-                            <option value="5">Polaris "North Star" (434 light years)</option>
-                        </select>
-                    </div>
-                    <div className="col-sm-4 text-center">
-                        <img id="EarthImg" src={EarthImg} alt="target" className="w-75" />
-                        <img id="JupiterImg" src={JupiterImg} alt="target" className="d-none" />
-                        <img id="NeptuneImg" src={NeptuneImg} alt="target" className="d-none" />
-                        <img id="AlphaCentariImg" src={AlphaCentariImg} alt="target" className="d-none" />
-                        <img id="PolarisImg" src={PolarisImg} alt="target" className="d-none" />
-                    </div>
-                </div>);
-    }
-}
-
-class CalculateButton extends React.Component
-{
-    render()
-    {
-        return (<div className="my-5 text-center">
-                 <button type="button"
-                        className="btn btn-success btn-lg"
-                        onClick={this.props.ClickEvent}>
-                        How far apart are these objects?
-                 </button>
-             </div>);
-    }
-}
-
-class Results extends React.Component
-{
-    render()
-    {
-        return(
-            <div className="my-b d-none" id="ResultsContainer">
-                <div className="alert alert-success" role="alert" id="ResultsOutput">
                 </div>
             </div>
         );
