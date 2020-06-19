@@ -32,7 +32,7 @@ class Utilties
         let imageToShow = document.getElementById(imageId);
         if (imageToShow !== null) {
             imageToShow.removeAttribute("class");
-            imageToShow.setAttribute("class", "w-75");
+            imageToShow.setAttribute("class", "w-100");
         }
     };
 };
