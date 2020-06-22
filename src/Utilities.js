@@ -1,4 +1,4 @@
-class Utilties
+class Utilities
 {
     FormatWithCommas = (input, decimalPlaces) => {
         // only displays upto 2 decimal places due to the comma insertions.
@@ -15,17 +15,46 @@ class Utilties
         return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
-    ImageManager = (imageIdsToHide, imageIdsToShow) => {
-        imageIdsToHide.forEach(this.HideImage);
-        imageIdsToShow.forEach(this.ShowImage);
+    HideSizeImages = () => 
+    {
+        let saltImg = document.getElementById("SaltImg");
+        saltImg.removeAttribute("class");
+        saltImg.setAttribute("class", "d-none");
+
+        let bbImg = document.getElementById("BBImg");
+        bbImg.removeAttribute("class");
+        bbImg.setAttribute("class", "d-none");
+
+        let golfBallImg = document.getElementById("GolfBallImg");
+        golfBallImg.removeAttribute("class");
+        golfBallImg.setAttribute("class", "d-none");
+
+        let basketballImg = document.getElementById("BasketballImg");
+        basketballImg.removeAttribute("class");
+        basketballImg.setAttribute("class", "d-none");
     };
 
-    HideImage = (imageId) => {
-        let imageToHide = document.getElementById(imageId);
-        if (imageToHide !== null) {
-            imageToHide.removeAttribute("class");
-            imageToHide.setAttribute("class", "d-none");
-        }
+    HideTargetImages = () => 
+    {
+        let earthImg = document.getElementById("EarthImg");
+        earthImg.removeAttribute("class");
+        earthImg.setAttribute("class", "d-none");
+
+        let jupiterImg = document.getElementById("JupiterImg");
+        jupiterImg.removeAttribute("class");
+        jupiterImg.setAttribute("class", "d-none");
+
+        let neptuneImg = document.getElementById("NeptuneImg");
+        neptuneImg.removeAttribute("class");
+        neptuneImg.setAttribute("class", "d-none");
+
+        let alphaCentariImg = document.getElementById("AlphaCentariImg");
+        alphaCentariImg.removeAttribute("class");
+        alphaCentariImg.setAttribute("class", "d-none");
+
+        let polarisImg = document.getElementById("PolarisImg");
+        polarisImg.removeAttribute("class");
+        polarisImg.setAttribute("class", "d-none");
     };
 
     ShowImage = (imageId) => {
@@ -37,4 +66,4 @@ class Utilties
     };
 };
 
-export default Utilties;
+export default Utilities;

@@ -1,7 +1,8 @@
 import React, { useState} from 'react';
 
 // components
-import Results from './components/Results';
+import ResultsDisplay from './components/ResultsDisplay';
+import ResultsDisplayNew from './components/ResultsDisplayNew';
 import CalculateButton from './components/CalculateButton';
 import Header from './components/Header';
 import TargetSelector from './components/TargetSelector';
@@ -14,8 +15,6 @@ const milesInALightYear = 5880000000000;
 const mmsInAnInch = 25.4;
 const inchesInFoot = 12;
 const feetInAMile = 5820;
-let imagesToHide = [];
-let imagesToShow = [];
 const utilities = new Utilities();
 
 let sunSizes = [];
@@ -33,6 +32,8 @@ let alphaCentari = new Target(4, "Alpha Centari", "our closest star", (milesInAL
 let polaris = new Target(5, "Polaris", "also known as the 'North Star'", (milesInALightYear * 434));
 targets.push(earth, jupiter, neptune, alphaCentari, polaris);
 
+// default results
+let results = new Results(diameterOfSunInMiles);
 
 // global functions
 function SunSize(index, name, pluralName, mmSize, imgName)
@@ -51,6 +52,13 @@ function Target(index, name, description, milesAway) {
     this.DistanceInMiles = milesAway;
 }
 
+// start here
+function Results(diameterOfSunInMiles)
+{
+    this.DiameterOfSunInMiles = utilities.FormatWithCommas(diameterOfSunInMiles, 0);
+};
+
+
 const App = () =>
 {
     // state
@@ -58,15 +66,10 @@ const App = () =>
     const [target, setTarget] = useState(1);
 
     const ShowResults = () => {
-        const resultsContainer = document.getElementById("ResultsContainer");
+        const resultsContainer = document.getElementById("ResultsDisplayContainer");
         resultsContainer.removeAttribute("class");
         resultsContainer.setAttribute("class", "my-b");
 
-        imagesToShow = []
-        imagesToHide = [];
-        imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "AlphaCentariImg", "PolarisImg", "SaltImg", "BBImg", "GolfBallImg", "BasketballImg");
-
-        utilities.ImageManager(imagesToHide, imagesToShow);
         CalculateResults();
     };
 
@@ -74,7 +77,7 @@ const App = () =>
     {
         // renaming of sunSize vs selectedSunSize might be needed
 
-        const resultsOutput = document.getElementById("ResultsOutput");
+        const resultsOutput = document.getElementById("ResultsDisplayOutput");
 
         // selected objects (from drop downs)
         let selectedSunSize = sunSizes[sunSize - 1];
@@ -136,40 +139,27 @@ const App = () =>
         let selectedSunSize = parseInt(sunSizeDropDown.value);
         setSunSize(selectedSunSize);
 
-        imagesToHide = [];
-        imagesToShow = [];
+        utilities.HideSizeImages();
 
         switch (selectedSunSize)
         {
-            // salt
             case 1:
-                imagesToHide.push("BBImg", "GolfBallImg", "BasketballImg");
-                imagesToShow.push("SaltImg");
+                utilities.ShowImage("SaltImg");
                 break;
-            // bb
             case 2:
-                imagesToHide.push("SaltImg", "GolfBallImg", "BasketballImg");
-                imagesToShow.push("BBImg");
+                utilities.ShowImage("BBImg");
                 break;
-            // golf ball
             case 3:
-                imagesToHide.push("SaltImg", "BBImg", "BasketballImg");
-                imagesToShow.push("GolfBallImg");
+                utilities.ShowImage("GolfBallImg");
                 break;
-            // basektball
             case 4:
-                imagesToHide.push("SaltImg", "BBImg", "GolfBallImg");
-                imagesToShow.push("BasketballImg");
+                utilities.ShowImage("BasketballImg");
                 break;
-
             default:
-                imagesToHide.push("SaltImg", "BBImg", "GolfBallImg", "BasketballImg");
-
+                utilities.ShowImage("SaltImg");
         }
 
         ShowResults();
-
-        utilities.ImageManager(imagesToHide, imagesToShow);
     };
 
     const TargetChanged = () => {
@@ -178,45 +168,30 @@ const App = () =>
         let selectedTarget = parseInt(targetDropDown.value);
         setTarget(selectedTarget);
 
-        imagesToHide = [];
-        imagesToShow = [];
+        utilities.HideTargetImages();
 
-        // img management
         switch (selectedTarget)
         {
-            // earth
             case 1:
-                imagesToHide.push("JupiterImg", "NeptuneImg", "AlphaCentariImg", "PolarisImg");
-                imagesToShow.push("EarthImg");
+                utilities.ShowImage("EarthImg");
                 break;
-            // jupiter
             case 2:
-                imagesToHide.push("EarthImg", "NeptuneImg", "AlphaCentariImg", "PolarisImg");
-                imagesToShow.push("JupiterImg");
+                utilities.ShowImage("JupiterImg");
                 break;
-            // neptune
             case 3:
-                imagesToHide.push("EarthImg", "JupiterImg", "AlphaCentariImg", "PolarisImg");
-                imagesToShow.push("NeptuneImg");
+                utilities.ShowImage("NeptuneImg");
                 break;
-            // alpha centari
             case 4:
-                imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "PolarisImg");
-                imagesToShow.push("AlphaCentariImg");
+                utilities.ShowImage("AlphaCentariImg");
                 break;
-            // polaris
             case 5:
-                imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "AlphaCentariImg");
-                imagesToShow.push("PolarisImg");
+                utilities.ShowImage("PolarisImg");
                 break;
-
             default:
-                imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "AlphaCentariImg", "Polaris");
+                utilities.ShowImage("EarthImg");
         }
 
         ShowResults();
-
-        utilities.ImageManager(imagesToHide, imagesToShow);
     };
 
     return (<div className="container">
@@ -231,8 +206,9 @@ const App = () =>
                                 <TargetSelector OnChangeEvent={TargetChanged} />
                             </div>
                         </div>
-                        {/* <CalculateButton ClickEvent={ShowResults} /> */}
-                        <Results />
+                        <CalculateButton ClickEvent={ShowResults} />
+                        <ResultsDisplay />
+                        <ResultsDisplayNew ResultsData={results}/>
                     </div>
                 </div>
             </div>
