@@ -56,10 +56,7 @@ const App = () =>
     // state
     const [sunSize, setSunSize] = useState(1);
     const [target, setTarget] = useState(1);
-    console.log(`sunSize: ${sunSize}`);
-    console.log(`target: ${target}`);
 
-    //const
     const ShowResults = () => {
         const resultsContainer = document.getElementById("ResultsContainer");
         resultsContainer.removeAttribute("class");
@@ -170,6 +167,8 @@ const App = () =>
 
         }
 
+        ShowResults();
+
         utilities.ImageManager(imagesToHide, imagesToShow);
     };
 
@@ -215,6 +214,8 @@ const App = () =>
                 imagesToHide.push("EarthImg", "JupiterImg", "NeptuneImg", "AlphaCentariImg", "Polaris");
         }
 
+        ShowResults();
+
         utilities.ImageManager(imagesToHide, imagesToShow);
     };
 
@@ -230,7 +231,7 @@ const App = () =>
                                 <TargetSelector OnChangeEvent={TargetChanged} />
                             </div>
                         </div>
-                        <CalculateButton ClickEvent={ShowResults} />
+                        {/* <CalculateButton ClickEvent={ShowResults} /> */}
                         <Results />
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import React from 'react';
 const Results = () =>
 {
     return (
-    <div className="my-b d-none" id="ResultsContainer">
+    <div className="my-b xd-none" id="ResultsContainer">
         <div className="alert alert-success" role="alert" id="ResultsOutput">
         </div>
     </div>);
