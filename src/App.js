@@ -33,7 +33,13 @@ let polaris = new Target(5, "Polaris", "also known as the 'North Star'", (milesI
 targets.push(earth, jupiter, neptune, alphaCentari, polaris);
 
 // default results
-let results = new Results(diameterOfSunInMiles);
+let results = new Results(diameterOfSunInMiles, 
+                            sunSizes[0].Name, 
+                            sunSizes[0].PluralName, 
+                            sunSizes[0].MMSize, 
+                            targets[0].Name,
+                            targets[0].Description, 
+                            targets[0].DistanceInMiles);
 
 // global functions
 function SunSize(index, name, pluralName, mmSize, imgName)
@@ -53,9 +59,24 @@ function Target(index, name, description, milesAway) {
 }
 
 // start here
-function Results(diameterOfSunInMiles)
+function Results(diameterOfSunInMiles, sizeName, sizePluralName, sunSizeInMM, targetName, targetDescription, targetMilesFromSun)
 {
+    // consider passing in a whole obj(s) instead of primative values
     this.DiameterOfSunInMiles = utilities.FormatWithCommas(diameterOfSunInMiles, 0);
+    this.SizeName = sizeName;
+    this.SizePluralName = sizePluralName;
+    this.SunSizeInMM = sunSizeInMM;
+    this.MicroMilesInMM = utilities.FormatWithCommas((diameterOfSunInMiles / sunSizeInMM), 2);
+    this.TargetName = targetName;
+    this.TargetDescription = targetDescription;
+    this.TargetMilesFromSun = utilities.FormatWithCommas(targetMilesFromSun, 2);
+    this.MMsAwayFromTarget = targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM);
+    this.MMsAwayFromTargetFormatted = utilities.FormatWithCommas(targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM), 2);
+    this.InchesAwayFromTarget = (targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM) / mmsInAnInch);
+    this.InchesAwayFromTargetFormatted = utilities.FormatWithCommas((targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM) / mmsInAnInch),2);
+    this.FeetAwayFromTarget = ((targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM) / mmsInAnInch) / inchesInFoot);
+    this.FeetAwayFromTargetFormatted = utilities.FormatWithCommas(((targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM) / mmsInAnInch) / inchesInFoot), 2);
+    this.UnitsBetweenSunAndTarget = utilities.FormatWithCommas((targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM)) * (sunSizeInMM * 10), 2);
 };
 
 
