@@ -33,13 +33,7 @@ let polaris = new Target(5, "Polaris", "also known as the 'North Star'", (milesI
 targets.push(earth, jupiter, neptune, alphaCentari, polaris);
 
 // default results
-let results = new Results(diameterOfSunInMiles, 
-                            sunSizes[0].Name, 
-                            sunSizes[0].PluralName, 
-                            sunSizes[0].MMSize, 
-                            targets[0].Name,
-                            targets[0].Description, 
-                            targets[0].DistanceInMiles);
+let results = new Results(grainOfSalt, earth);
 
 // global functions
 function SunSize(index, name, pluralName, mmSize, imgName)
@@ -58,110 +52,111 @@ function Target(index, name, description, milesAway) {
     this.DistanceInMiles = milesAway;
 }
 
-// start here
-function Results(diameterOfSunInMiles, sizeName, sizePluralName, sunSizeInMM, targetName, targetDescription, targetMilesFromSun)
+function Results(selectedSunSize, selectedTargeted)
 {
-    // consider passing in a whole obj(s) instead of primative values
     this.DiameterOfSunInMiles = utilities.FormatWithCommas(diameterOfSunInMiles, 0);
-    this.SizeName = sizeName;
-    this.SizePluralName = sizePluralName;
-    this.SunSizeInMM = sunSizeInMM;
-    this.MicroMilesInMM = utilities.FormatWithCommas((diameterOfSunInMiles / sunSizeInMM), 2);
-    this.TargetName = targetName;
-    this.TargetDescription = targetDescription;
-    this.TargetMilesFromSun = utilities.FormatWithCommas(targetMilesFromSun, 2);
-    this.MMsAwayFromTarget = targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM);
-    this.MMsAwayFromTargetFormatted = utilities.FormatWithCommas(targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM), 2);
-    this.InchesAwayFromTarget = (targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM) / mmsInAnInch);
-    this.InchesAwayFromTargetFormatted = utilities.FormatWithCommas((targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM) / mmsInAnInch),2);
-    this.FeetAwayFromTarget = ((targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM) / mmsInAnInch) / inchesInFoot);
-    this.FeetAwayFromTargetFormatted = utilities.FormatWithCommas(((targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM) / mmsInAnInch) / inchesInFoot), 2);
-    this.UnitsBetweenSunAndTarget = utilities.FormatWithCommas((targetMilesFromSun / (diameterOfSunInMiles / sunSizeInMM)) * (sunSizeInMM * 10), 2);
+    this.SizeName = selectedSunSize.Name;
+    this.SizePluralName = selectedSunSize.PluralName;
+    this.SunSizeInMM = selectedSunSize.MMSize;
+    this.MicroMilesInMM = utilities.FormatWithCommas((diameterOfSunInMiles / selectedSunSize.MMSize), 2);
+    this.TargetName = selectedTargeted.Name;
+    this.TargetDescription = selectedTargeted.Description;
+    this.TargetMilesFromSun = utilities.FormatWithCommas(selectedTargeted.DistanceInMiles, 2);
+    this.MMsAwayFromTarget = selectedTargeted.DistanceInMiles / (diameterOfSunInMiles / selectedSunSize.MMSize);
+    this.MMsAwayFromTargetFormatted = utilities.FormatWithCommas(selectedTargeted.DistanceInMiles / (diameterOfSunInMiles / selectedSunSize.MMSize), 2);
+    this.InchesAwayFromTarget = (selectedTargeted.DistanceInMiles / (diameterOfSunInMiles / selectedSunSize.MMSize) / mmsInAnInch);
+    this.InchesAwayFromTargetFormatted = utilities.FormatWithCommas((selectedTargeted.DistanceInMiles / (diameterOfSunInMiles / selectedSunSize.MMSize) / mmsInAnInch),2);
+    this.FeetAwayFromTarget = ((selectedTargeted.DistanceInMiles / (diameterOfSunInMiles / selectedSunSize.MMSize) / mmsInAnInch) / inchesInFoot);
+    this.FeetAwayFromTargetFormatted = utilities.FormatWithCommas(((selectedTargeted.DistanceInMiles / (diameterOfSunInMiles / selectedSunSize.MMSize) / mmsInAnInch) / inchesInFoot), 2);
+    this.UnitsBetweenSunAndTarget = utilities.FormatWithCommas((selectedTargeted.DistanceInMiles / (diameterOfSunInMiles / selectedSunSize.MMSize)) * (selectedSunSize.MMSize * 10), 2);
 };
 
 
 const App = () =>
 {
     // state
-    const [sunSize, setSunSize] = useState(1);
-    const [target, setTarget] = useState(1);
+    const [sunSizeObject, setSunSizeObject] = useState(sunSizes[0]);
+    const [targetObject, setTargetObject] = useState(targets[0]);
 
-    const ShowResults = () => {
-        const resultsContainer = document.getElementById("ResultsDisplayContainer");
-        resultsContainer.removeAttribute("class");
-        resultsContainer.setAttribute("class", "my-b");
+    // this works!  pass the objects to the results display..perhaps..store Results object as STATE!
 
-        CalculateResults();
-    };
+    console.dir(sunSizeObject);
 
-    const CalculateResults = () =>
-    {
-        // renaming of sunSize vs selectedSunSize might be needed
+    // const ShowResults = () => {
+    //     const resultsContainer = document.getElementById("ResultsDisplayContainer");
+    //     resultsContainer.removeAttribute("class");
+    //     resultsContainer.setAttribute("class", "my-b");
 
-        const resultsOutput = document.getElementById("ResultsDisplayOutput");
+    //     CalculateResults();
+    // };
 
-        // selected objects (from drop downs)
-        let selectedSunSize = sunSizes[sunSize - 1];
-        let selectedTarget = targets[target - 1];
-        let htmlOutput = "";
+    // const CalculateResults = () =>
+    // {
+    //     // renaming of sunSize vs selectedSunSize might be needed
 
-        const microMilesInMM = (diameterOfSunInMiles / selectedSunSize.MMSize);
-        const mmsAwayFromTarget = (selectedTarget.DistanceInMiles / microMilesInMM);
-        const inchesAwayFromTarget = (mmsAwayFromTarget / mmsInAnInch);
-        const feetAwayFromTarget = (inchesAwayFromTarget / inchesInFoot);
-        const milesAwayFromTarget = (feetAwayFromTarget / feetInAMile);
-        const formula = ((((selectedTarget.DistanceInMiles / microMilesInMM) / mmsInAnInch) / inchesInFoot) / feetInAMile);
+    //     const resultsOutput = document.getElementById("ResultsDisplayOutput");
 
-        htmlOutput = `<p>Our sun is <strong>${utilities.FormatWithCommas(diameterOfSunInMiles, 0)} miles</strong> in diameter.</p>`;
+    //     // selected objects (from drop downs)
+    //     let selectedSunSize = sunSizes[sunSizeObject - 1];
+    //     let selectedTarget = targets[targetObject - 1];
+    //     let htmlOutput = "";
 
-        htmlOutput += `<p>If the sun were scaled down to the size of a <strong>${selectedSunSize.Name}</strong>, `;
-        htmlOutput += `it would be <strong>${selectedSunSize.MMSize} mms</strong> in diameter. `;
-        htmlOutput += `Each mm would be equal to <strong>${utilities.FormatWithCommas(microMilesInMM, 2)}</strong> miles. </p>`;
+    //     const microMilesInMM = (diameterOfSunInMiles / selectedSunSize.MMSize);
+    //     const mmsAwayFromTarget = (selectedTarget.DistanceInMiles / microMilesInMM);
+    //     const inchesAwayFromTarget = (mmsAwayFromTarget / mmsInAnInch);
+    //     const feetAwayFromTarget = (inchesAwayFromTarget / inchesInFoot);
+    //     const milesAwayFromTarget = (feetAwayFromTarget / feetInAMile);
+    //     const formula = ((((selectedTarget.DistanceInMiles / microMilesInMM) / mmsInAnInch) / inchesInFoot) / feetInAMile);
 
-        // not far enough to use light years
-        if (selectedTarget.DistanceInMiles / milesInALightYear < 0.5) {
-            htmlOutput += `<p><strong>${selectedTarget.Name}</strong>, ${selectedTarget.Description}, normally <strong>${utilities.FormatWithCommas(selectedTarget.DistanceInMiles, 2)}</strong> miles `;
-            htmlOutput += `from our sun, would be <strong>${utilities.FormatWithCommas((feetAwayFromTarget), 2)}</strong> feet away from our sun at this scale.</p>`;
-        }
-        else {
-            htmlOutput += `<p><strong>${selectedTarget.Name}</strong>, ${selectedTarget.Description}, is `;
-            htmlOutput += `<strong>${selectedTarget.DistanceInMiles / milesInALightYear}</strong> light years away. `;
-            htmlOutput += `There are <strong>${utilities.FormatWithCommas(milesInALightYear, 0)} miles</strong> in one light year so that puts ${selectedTarget.Name} `;
-            htmlOutput += `<strong>${utilities.FormatWithCommas(selectedTarget.DistanceInMiles, 2)}</strong> miles away from our sun.</p>`;
-        }
+    //     htmlOutput = `<p>Our sun is <strong>${utilities.FormatWithCommas(diameterOfSunInMiles, 0)} miles</strong> in diameter.</p>`;
 
-        htmlOutput += `<p>If each mm is equal to <strong>${utilities.FormatWithCommas(microMilesInMM, 2)} miles</strong> in scale, that would place `;
-        htmlOutput += `${selectedTarget.Name} <strong>${utilities.FormatWithCommas(mmsAwayFromTarget, 2)}</strong> mms away from our sun `;
-        htmlOutput += `also scaled down respectively.</p>`;
+    //     htmlOutput += `<p>If the sun were scaled down to the size of a <strong>${selectedSunSize.Name}</strong>, `;
+    //     htmlOutput += `it would be <strong>${selectedSunSize.MMSize} mms</strong> in diameter. `;
+    //     htmlOutput += `Each mm would be equal to <strong>${utilities.FormatWithCommas(microMilesInMM, 2)}</strong> miles. </p>`;
 
-        htmlOutput += `<p>There are <strong>${mmsInAnInch} mms</strong> in an inch. That means <strong>${selectedTarget.Name}</strong> `;
-        htmlOutput += `is <strong>${utilities.FormatWithCommas(inchesAwayFromTarget, 2)} inches</strong> away from tiny our sun. `;
-        htmlOutput += `That's <strong>${utilities.FormatWithCommas(feetAwayFromTarget, 2)} feet</strong> away from our sun. <p>`;
+    //     // not far enough to use light years
+    //     if (selectedTarget.DistanceInMiles / milesInALightYear < 0.5) {
+    //         htmlOutput += `<p><strong>${selectedTarget.Name}</strong>, ${selectedTarget.Description}, normally <strong>${utilities.FormatWithCommas(selectedTarget.DistanceInMiles, 2)}</strong> miles `;
+    //         htmlOutput += `from our sun, would be <strong>${utilities.FormatWithCommas((feetAwayFromTarget), 2)}</strong> feet away from our sun at this scale.</p>`;
+    //     }
+    //     else {
+    //         htmlOutput += `<p><strong>${selectedTarget.Name}</strong>, ${selectedTarget.Description}, is `;
+    //         htmlOutput += `<strong>${selectedTarget.DistanceInMiles / milesInALightYear}</strong> light years away. `;
+    //         htmlOutput += `There are <strong>${utilities.FormatWithCommas(milesInALightYear, 0)} miles</strong> in one light year so that puts ${selectedTarget.Name} `;
+    //         htmlOutput += `<strong>${utilities.FormatWithCommas(selectedTarget.DistanceInMiles, 2)}</strong> miles away from our sun.</p>`;
+    //     }
 
-        // not far enough to use miles
-        if (milesAwayFromTarget < 0.5) {
-            htmlOutput += `<p>You would have to put these two tiny objects (${selectedSunSize.PluralName}) <strong>${utilities.FormatWithCommas(feetAwayFromTarget, 2)} `;
-            htmlOutput += `feet</strong> apart to accurately represent the distance between our sun and ${selectedTarget.Name}.</p>`;
-        }
-        else {
-            htmlOutput += `<p>Put in perspective, you would have to put these two tiny objects (${selectedSunSize.PluralName}) <strong>${utilities.FormatWithCommas(milesAwayFromTarget, 2)} `;
-            htmlOutput += `miles</strong> apart to accurately represent the distance between our sun and ${selectedTarget.Name}.</p>`;
-        }
+    //     htmlOutput += `<p>If each mm is equal to <strong>${utilities.FormatWithCommas(microMilesInMM, 2)} miles</strong> in scale, that would place `;
+    //     htmlOutput += `${selectedTarget.Name} <strong>${utilities.FormatWithCommas(mmsAwayFromTarget, 2)}</strong> mms away from our sun `;
+    //     htmlOutput += `also scaled down respectively.</p>`;
 
-        htmlOutput += "<p>&nbsp;</p>";
-        htmlOutput += `<p><small><em>((((milesAwayFromAlphaCenari / milesInMM) / mmsInAnInch) / inchesInFoot) / feetInAMile): ${formula}</em></small></p>`;
+    //     htmlOutput += `<p>There are <strong>${mmsInAnInch} mms</strong> in an inch. That means <strong>${selectedTarget.Name}</strong> `;
+    //     htmlOutput += `is <strong>${utilities.FormatWithCommas(inchesAwayFromTarget, 2)} inches</strong> away from tiny our sun. `;
+    //     htmlOutput += `That's <strong>${utilities.FormatWithCommas(feetAwayFromTarget, 2)} feet</strong> away from our sun. <p>`;
 
-        resultsOutput.innerHTML = htmlOutput;
-    };
+    //     // not far enough to use miles
+    //     if (milesAwayFromTarget < 0.5) {
+    //         htmlOutput += `<p>You would have to put these two tiny objects (${selectedSunSize.PluralName}) <strong>${utilities.FormatWithCommas(feetAwayFromTarget, 2)} `;
+    //         htmlOutput += `feet</strong> apart to accurately represent the distance between our sun and ${selectedTarget.Name}.</p>`;
+    //     }
+    //     else {
+    //         htmlOutput += `<p>Put in perspective, you would have to put these two tiny objects (${selectedSunSize.PluralName}) <strong>${utilities.FormatWithCommas(milesAwayFromTarget, 2)} `;
+    //         htmlOutput += `miles</strong> apart to accurately represent the distance between our sun and ${selectedTarget.Name}.</p>`;
+    //     }
+
+    //     htmlOutput += "<p>&nbsp;</p>";
+    //     htmlOutput += `<p><small><em>((((milesAwayFromAlphaCenari / milesInMM) / mmsInAnInch) / inchesInFoot) / feetInAMile): ${formula}</em></small></p>`;
+
+    //     resultsOutput.innerHTML = htmlOutput;
+    // };
 
     const SizeChanged = () =>
     {
         const sunSizeDropDown = document.getElementById("SizeSelectorDropDown");
         let selectedSunSize = parseInt(sunSizeDropDown.value);
-        setSunSize(selectedSunSize);
 
+        // img management
         utilities.HideSizeImages();
-
         switch (selectedSunSize)
         {
             case 1:
@@ -180,17 +175,20 @@ const App = () =>
                 utilities.ShowImage("SaltImg");
         }
 
-        ShowResults();
+        // get selected object
+        let selectedSunObject = sunSizes[selectedSunSize - 1];
+        setSunSizeObject(selectedSunObject);
+
+        //ShowResults();
     };
 
     const TargetChanged = () => {
 
         const targetDropDown = document.getElementById("TargetSelectorDropDown");
         let selectedTarget = parseInt(targetDropDown.value);
-        setTarget(selectedTarget);
 
+        // img management
         utilities.HideTargetImages();
-
         switch (selectedTarget)
         {
             case 1:
@@ -212,7 +210,11 @@ const App = () =>
                 utilities.ShowImage("EarthImg");
         }
 
-        ShowResults();
+        // get selected object
+        let selectedTagrgetObject = targets[selectedTarget - 1];
+        setTargetObject(selectedTagrgetObject);
+
+        //ShowResults();
     };
 
     return (<div className="container">
@@ -227,8 +229,8 @@ const App = () =>
                                 <TargetSelector OnChangeEvent={TargetChanged} />
                             </div>
                         </div>
-                        <CalculateButton ClickEvent={ShowResults} />
-                        <ResultsDisplay />
+                        {/* <CalculateButton ClickEvent={ShowResults} /> */}
+                        {/* <ResultsDisplay /> */}
                         <ResultsDisplayNew ResultsData={results}/>
                     </div>
                 </div>
