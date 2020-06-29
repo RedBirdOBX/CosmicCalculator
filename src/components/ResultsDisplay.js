@@ -2,6 +2,8 @@ import React from 'react';
 
 const ResultsDisplay = (props) =>
 {
+    console.log("results rendered....");
+
     return (
     <div className="my-b" id="ResultsDisplayNewContainer">
         <div className="alert alert-success" role="alert" id="ResultsDisplayNewOutput">

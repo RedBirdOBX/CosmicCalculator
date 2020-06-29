@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 
 // components
 import ResultsDisplay from './components/ResultsDisplay';
@@ -69,7 +69,7 @@ const App = () =>
         resultsObject.SelectedObjectSize = objectSize;
         setResultsObject(resultsObject);
 
-        console.clear();
+        //console.clear();
         console.dir(resultsObject);
     };
 
