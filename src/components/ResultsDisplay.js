@@ -1,26 +1,14 @@
 import React from 'react';
 
-const ResultsDisplay = () =>
+const ResultsDisplay = (props) =>
 {
     return (
-    <div className="my-b d-none" id="ResultsDisplayContainer">
-        <div className="alert alert-success" role="alert" id="ResultsDisplayOutput">
+    <div className="my-b" id="ResultsDisplayNewContainer">
+        <div className="alert alert-success" role="alert" id="ResultsDisplayNewOutput">
+            <p><strong>The object you picked is.... {props.ResultsData.SelectedObjectSize.Name}</strong></p>
         </div>
     </div>);
 };
 
+
 export default ResultsDisplay;
-
-
-// class Results extends React.Component
-// {
-//     render()
-//     {
-//         return(
-//             <div className="my-b d-none" id="ResultsContainer">
-//                 <div className="alert alert-success" role="alert" id="ResultsOutput">
-//                 </div>
-//             </div>
-//         );
-//     }
-// }

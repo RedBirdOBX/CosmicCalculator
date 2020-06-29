@@ -23,11 +23,11 @@ const TargetSelector = (props) =>
                 <div className="form-group row">
                     <div className="col-6">
                         <select id="TargetSelectorDropDown" className="form-control" onChange={props.OnChangeEvent}>
-                            <option value="1">Earth (94,437,000 miles)</option>
-                            <option value="2">Jupiter (481,000,000 miles)</option>
-                            <option value="3">Neptune (2,793,000,000 miles)</option>
-                            <option value="4">Alpha Centari (4.37 light years)</option>
-                            <option value="5">Polaris "North Star" (434 light years)</option>
+                            <option value="0">Earth (94,437,000 miles)</option>
+                            <option value="1">Jupiter (481,000,000 miles)</option>
+                            <option value="2">Neptune (2,793,000,000 miles)</option>
+                            <option value="3">Alpha Centari (4.37 light years)</option>
+                            <option value="4">Polaris "North Star" (434 light years)</option>
                         </select>
                     </div>
                 </div>

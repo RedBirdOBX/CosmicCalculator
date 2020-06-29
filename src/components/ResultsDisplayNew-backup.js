@@ -5,7 +5,11 @@ const ResultsDisplayNew = (props) =>
     return (
     <div className="my-b" id="ResultsDisplayNewContainer">
         <div className="alert alert-success" role="alert" id="ResultsDisplayNewOutput">
-            <p>
+
+            <p><strong>The selected target is {props.ResultsData.SelectedSunObject.ImageName}</strong></p>
+
+            
+            {/* <p>
                 Our sun is <strong>{props.ResultsData.DiameterOfSunInMiles} miles</strong> in diameter at it takes 109 Earth-sized
                 objects, side by side, to cover the diameter of the sun.
                 But what if the sun could be scaled down to the size of a <strong>{props.ResultsData.SizeName}</strong> and 
@@ -23,7 +27,7 @@ const ResultsDisplayNew = (props) =>
                 Sun and {props.ResultsData.TargetName}.
             </p>
 
-            <p>Change the drop downs above to run different calculations.</p>
+            <p>Change the drop downs above to run different calculations.</p> */}
         </div>
     </div>);
 };

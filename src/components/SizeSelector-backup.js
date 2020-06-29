@@ -11,7 +11,7 @@ const SizeSelector = (props) =>
             <div id="SizeContainer" className="xborder">
                 <div className="row">
                     <div className="col-6 offset-6">
-                        <div className="text-center">Pick an object</div>
+                        <div className="text-center">Select the size of our sun</div>
                         <img id="SaltImg" src={GrainOfSaltImg} alt="size of sun" className="w-100" />
                         <img id="BBImg" src={BBPelletImg} alt="size of sun" className="d-none" />
                         <img id="GolfBallImg" src={GolfBallImg} alt="size of sun" className="d-none" />
