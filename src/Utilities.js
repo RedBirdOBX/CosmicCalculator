@@ -15,7 +15,7 @@ class Utilities
         return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
-    HideSizeImages = () => 
+    HideSizeImages = () =>
     {
         let saltImg = document.getElementById("SaltImg");
         saltImg.removeAttribute("class");
@@ -34,7 +34,7 @@ class Utilities
         basketballImg.setAttribute("class", "d-none");
     };
 
-    HideTargetImages = () => 
+    HideTargetImages = () =>
     {
         let earthImg = document.getElementById("EarthImg");
         earthImg.removeAttribute("class");
@@ -57,9 +57,11 @@ class Utilities
         polarisImg.setAttribute("class", "d-none");
     };
 
-    ShowImage = (imageId) => {
+    ShowImage = (imageId) =>
+    {
         let imageToShow = document.getElementById(imageId);
-        if (imageToShow !== null) {
+        if (imageToShow !== null)
+        {
             imageToShow.removeAttribute("class");
             imageToShow.setAttribute("class", "w-100");
         }

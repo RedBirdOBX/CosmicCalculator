@@ -1,26 +1,40 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 // components
+// import Header from './components/Header';
 import ResultsDisplay from './components/ResultsDisplay';
-import Header from './components/Header';
 import SizeSelector from './components/SizeSelector';
+import TargetSelector from './components/TargetSelector';
 import Utilities from './Utilities';
 
 // globals
 const utilities = new Utilities();
+//const diameterOfSunInMiles = 865370;
+const milesInALightYear = 5880000000000;
+//const mmsInAnInch = 25.4;
+//const inchesInFoot = 12;
+//const feetInAMile = 5820;
 
-let objectSizes = [];
-let grainOfSalt = new ObjectSize(0, "Grain Of Salt", "grains of salt", 0.334, "salt.jpg");
-let bbPellet = new ObjectSize(1, "BB Pellet", "bb pellets", 4.43, "bb.jpg");
-let golfBall = new ObjectSize(2, "Golf Ball", "golf balls", 42.67, "golf-ball.jpg");
-let basketball = new ObjectSize(3, "Basketball", "basketballs", 241.55, "basketball.jpg");
-objectSizes.push(grainOfSalt, bbPellet, golfBall, basketball);
 
-// default results
-let defaultResultsObject = new Results(grainOfSalt);
+// NOTES: We may ultimately have a results display object..
+
+let sunSizes = [];
+let grainOfSalt = new SunSize(0, "Grain Of Salt", "grains of salt", 0.334, "/images/salt.jpg");
+let bbPellet = new SunSize(1, "BB Pellet", "bb pellets", 4.43, "bb.jpg");
+let golfBall = new SunSize(2, "Golf Ball", "golf balls", 42.67, "golf-ball.jpg");
+let basketball = new SunSize(3, "Basketball", "basketballs", 241.55, "basketball.jpg");
+sunSizes.push(grainOfSalt, bbPellet, golfBall, basketball);
+
+let targets = [];
+let earth = new Target(0, "Earth", "our home", 94437000);
+let jupiter = new Target(1, "Jupiter", "our largest planet", 481000000);
+let neptune = new Target(2, "Neptune", "our most distant planet", 2793000000);
+let alphaCentari = new Target(3, "Alpha Centari", "our closest star", (milesInALightYear * 4.367));
+let polaris = new Target(4, "Polaris", "also known as the 'North Star'", (milesInALightYear * 434));
+targets.push(earth, jupiter, neptune, alphaCentari, polaris);
 
 // global functions
-function ObjectSize(index, name, pluralName, mmSize, imgName)
+function SunSize(index, name, pluralName, mmSize, imgName)
 {
     this.Index = index;
     this.Name = name;
@@ -29,25 +43,38 @@ function ObjectSize(index, name, pluralName, mmSize, imgName)
     this.ImageName = imgName;
 }
 
-function Results(selectedObjectSize)
+function Target(index, name, description, milesAway) {
+    this.Index = index;
+    this.Name = name;
+    this.Description = description;
+    this.DistanceInMiles = milesAway;
+}
+
+class App extends React.Component
 {
-    this.SelectedObjectSize = selectedObjectSize;
-};
+    constructor() {
+        super();
+        this.state =
+        {
+            // defaults
+            SelectedSunSize: sunSizes[0],
+            SelectedTarget: targets[0]
+        };
+    }
 
-
-const App = () =>
-{
-    // state
-    const [resultsObject, setResultsObject] = useState(defaultResultsObject);
-
-    const SizeChanged = () =>
+    SunSizeChanged = () =>
     {
-        const objectSizeDropDown = document.getElementById("SizeSelectorDropDown");
-        let selectedObjectSize = parseInt(objectSizeDropDown.value);
+        // grabbing vakue from drop down
+        const sunSizeDropDown = document.getElementById("SunSizeSelectorDropDown");
+        let sunSizeValue = parseInt(sunSizeDropDown.value);
+        let selectedSunSize = sunSizes[sunSizeValue];
+
+        // set state
+        this.setState({ SelectedSunSize: selectedSunSize });
 
         // img management
         utilities.HideSizeImages();
-        switch (selectedObjectSize)
+        switch (selectedSunSize.Index)
         {
             case 0:
                 utilities.ShowImage("SaltImg");
@@ -64,29 +91,62 @@ const App = () =>
             default:
                 utilities.ShowImage("SaltImg");
         }
-
-        let objectSize = objectSizes[selectedObjectSize];
-        resultsObject.SelectedObjectSize = objectSize;
-        setResultsObject(resultsObject);
-
-        //console.clear();
-        console.dir(resultsObject);
     };
 
-    return (<div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <Header />
-                        <div className="row">
+    TargetChanged = () => {
+
+        // grabbing vakue from drop down
+        const targetDropDown = document.getElementById("TargetSelectorDropDown");
+        let selectedTargetValue = parseInt(targetDropDown.value);
+        let selectedTarget = targets[selectedTargetValue];
+
+        // set state
+        this.setState({ SelectedTarget: selectedTarget });
+
+        // img management
+        utilities.HideTargetImages();
+        switch (selectedTarget) {
+            case 0:
+                utilities.ShowImage("EarthImg");
+                break;
+            case 1:
+                utilities.ShowImage("JupiterImg");
+                break;
+            case 2:
+                utilities.ShowImage("NeptuneImg");
+                break;
+            case 3:
+                utilities.ShowImage("AlphaCentariImg");
+                break;
+            case 4:
+                utilities.ShowImage("PolarisImg");
+                break;
+            default:
+                utilities.ShowImage("EarthImg");
+        }
+    };
+
+    render() {
+        return (
+            <div className="container">
+                 <div className="row">
+                     <div className="col-12">
+                         {/* <Header /> */}
+                         <div className="row">
+                             <div className="col-6">
+                                <SizeSelector ChangeEvent={this.SunSizeChanged} />
+                             </div>
                             <div className="col-6">
-                                <SizeSelector OnChangeEvent={SizeChanged} />
+                                <TargetSelector ChangeEvent={this.TargetChanged} />
                             </div>
-                        </div>
-                        <ResultsDisplay ResultsData={resultsObject} />
-                    </div>
-                </div>
-            </div>
-    );
-};
+                         </div>
+                         <ResultsDisplay ResultsData={this.state.SelectedSunSize} />
+                     </div>
+                 </div>
+             </div>
+        );
+    }
+}
+
 
 export default App;
