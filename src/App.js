@@ -1,7 +1,7 @@
 import React from 'react';
 
 // components
-// import Header from './components/Header';
+ import Header from './components/Header';
 import ResultsDisplay from './components/ResultsDisplay';
 import SizeSelector from './components/SizeSelector';
 import TargetSelector from './components/TargetSelector';
@@ -15,8 +15,6 @@ const milesInALightYear = 5880000000000;
 //const inchesInFoot = 12;
 //const feetInAMile = 5820;
 
-
-// NOTES: We may ultimately have a results display object..
 
 let sunSizes = [];
 let grainOfSalt = new SunSize(0, "Grain Of Salt", "grains of salt", 0.334, "/images/salt.jpg");
@@ -32,6 +30,8 @@ let neptune = new Target(2, "Neptune", "our most distant planet", 2793000000);
 let alphaCentari = new Target(3, "Alpha Centari", "our closest star", (milesInALightYear * 4.367));
 let polaris = new Target(4, "Polaris", "also known as the 'North Star'", (milesInALightYear * 434));
 targets.push(earth, jupiter, neptune, alphaCentari, polaris);
+
+
 
 // global functions
 function SunSize(index, name, pluralName, mmSize, imgName)
@@ -58,7 +58,8 @@ class App extends React.Component
         {
             // defaults
             SelectedSunSize: sunSizes[0],
-            SelectedTarget: targets[0]
+            SelectedTarget: targets[0],
+            //ResultsPackage: null
         };
     }
 
@@ -105,7 +106,7 @@ class App extends React.Component
 
         // img management
         utilities.HideTargetImages();
-        switch (selectedTarget) {
+        switch (selectedTarget.Index) {
             case 0:
                 utilities.ShowImage("EarthImg");
                 break;
@@ -131,7 +132,7 @@ class App extends React.Component
             <div className="container">
                  <div className="row">
                      <div className="col-12">
-                         {/* <Header /> */}
+                         <Header />
                          <div className="row">
                              <div className="col-6">
                                 <SizeSelector ChangeEvent={this.SunSizeChanged} />
@@ -140,7 +141,7 @@ class App extends React.Component
                                 <TargetSelector ChangeEvent={this.TargetChanged} />
                             </div>
                          </div>
-                         <ResultsDisplay ResultsData={this.state.SelectedSunSize} />
+                         <ResultsDisplay SunSizeData={this.state.SelectedSunSize} TargetData={this.state.SelectedTarget} />
                      </div>
                  </div>
              </div>
