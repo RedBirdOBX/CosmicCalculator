@@ -32,7 +32,6 @@ let polaris = new Target(4, "Polaris", "also known as the 'North Star'", (milesI
 targets.push(earth, jupiter, neptune, alphaCentari, polaris);
 
 
-
 // global functions
 function SunSize(index, name, pluralName, mmSize, imgName)
 {
@@ -50,6 +49,7 @@ function Target(index, name, description, milesAway) {
     this.DistanceInMiles = milesAway;
 }
 
+
 class App extends React.Component
 {
     constructor() {
@@ -59,7 +59,6 @@ class App extends React.Component
             // defaults
             SelectedSunSize: sunSizes[0],
             SelectedTarget: targets[0],
-            //ResultsPackage: null
         };
     }
 
@@ -141,7 +140,7 @@ class App extends React.Component
                                 <TargetSelector ChangeEvent={this.TargetChanged} />
                             </div>
                          </div>
-                         <ResultsDisplay SunSizeData={this.state.SelectedSunSize} TargetData={this.state.SelectedTarget} />
+                        <ResultsDisplay SunSize={this.state.SelectedSunSize} Target={this.state.SelectedTarget} />
                      </div>
                  </div>
              </div>
