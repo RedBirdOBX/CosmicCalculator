@@ -1,21 +1,26 @@
 import React from 'react';
+import Constants from '../Constants';
+import Utilities from '../Utilities';
+
 
 class ResultsDisplay extends React.Component
 {
 
-    // calculations here....for now.
+    constants = new Constants();
+    utilities = new Utilities();
+
 
     render()
     {
         return (
             <div>
 
-                <h3>The selected sun size is {this.props.SunSize.Name}</h3>
+                {/* <h3>The selected sun size is {this.props.SunSize.Name}</h3>
 
-                <h3>The selected target is {this.props.Target.Name}</h3>
+                <h3>The selected target is {this.props.Target.Name}</h3> */}
 
                 <p>
-                    Our sun is <strong>xxx miles</strong> in diameter at it takes 109 Earth-sized
+                    Our sun is <strong>{this.utilities.FormatWithCommas(this.constants.DiameterOfSunInMiles, 0)} miles</strong> in diameter at it takes 109 Earth-sized
                     objects, side by side, to cover the diameter of the sun.
                     But what if the sun could be scaled down to the size of a <strong>xxx</strong> and
                     the rest of the universe also scaled down accordingly? Our sun would
