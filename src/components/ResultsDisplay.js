@@ -44,9 +44,9 @@ class ResultsDisplay extends React.Component
                 <p>
                     <strong>{this.props.Target.Name}</strong>, {this.props.Target.Description},
                     normally&nbsp;<strong>{this.props.ResultsPackage.TargetDistanceInMilesFormatted}</strong> miles
-                    from our sun, would be xx<strong>{this.mmsAwayFromTargetFormatted}</strong>xx mms away from our sun at this scale.
-                    That's <strong>{this.inchesAwayFromTargetFormatted}</strong> inches, <strong>{this.feetAwayFromTargetFormatted}</strong>
-                    &nbsp;feet away from our sun at this scale. You could roughly put <strong>{this.unitsBetweenSunAndTargetFormatted}</strong>
+                    from our sun, would be <strong>{this.props.ResultsPackage.MMsAwayFromTargetFormatted}</strong> mms away from our sun at this scale.
+                    That's xxx<strong>{this.inchesAwayFromTargetFormatted}</strong>xxx inches, xxx<strong>{this.feetAwayFromTargetFormatted}</strong>xxx
+                    &nbsp;feet away from our sun at this scale. You could roughly put xxx<strong>{this.unitsBetweenSunAndTargetFormatted}</strong>xxx
                     &nbsp;{this.props.SunSize.PluralName} between the Sun and {this.props.Target.Name}.
                 </p>
 

@@ -86,7 +86,7 @@ class App extends React.Component
         let newResults = new ResultsPackage(
                                 utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, selectedSunSize.MMSize),
                                 this.state.SelectedTarget.DistanceInMiles,
-                                xx);
+                                utilities.CalculateMMsAwayFromTarget(this.state.SelectedTarget.DistanceInMiles, utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, selectedSunSize.MMSize)));
 
         // set states
         this.setState({ SelectedSunSize: selectedSunSize });
@@ -124,7 +124,7 @@ class App extends React.Component
         let newResults = new ResultsPackage(
             utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, this.state.SelectedSunSize.MMSize),
             selectedTarget.DistanceInMiles,
-            utilities.CalculateMMsAwayFromTarget(selectedTarget.DistanceInMiles, utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, this.state.selectedSunSize.....)));
+            utilities.CalculateMMsAwayFromTarget(selectedTarget.DistanceInMiles, utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, this.state.SelectedSunSize.MMSize)));
 
         // set states
         this.setState({ SelectedTarget: selectedTarget });
