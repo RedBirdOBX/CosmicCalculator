@@ -1,7 +1,7 @@
 import React from 'react';
 
 // components
- import Header from './components/Header';
+import Header from './components/Header';
 import ResultsDisplay from './components/ResultsDisplay';
 import SizeSelector from './components/SizeSelector';
 import TargetSelector from './components/TargetSelector';
@@ -27,11 +27,8 @@ let alphaCentari = new Target(3, "Alpha Centari", "our closest star", (constants
 let polaris = new Target(4, "Polaris", "also known as the 'North Star'", (constants.MilesInALightYear * 434));
 targets.push(earth, jupiter, neptune, alphaCentari, polaris);
 
-// experimental
-let defaultResultsPackage = new ResultsPackage(
-                                utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, grainOfSalt.MMSize), 
-                                earth.DistanceInMiles, 
-                                utilities.CalculateMMsAwayFromTarget(earth.DistanceInMiles, utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, grainOfSalt.MMSize)));
+let defaultResultsPackage = new ResultsPackage(earth.DistanceInMiles, grainOfSalt.MMSize);
+
 // global functions
 function SunSize(index, name, pluralName, mmSize, imgName)
 {
@@ -49,17 +46,21 @@ function Target(index, name, description, milesAway) {
     this.DistanceInMiles = milesAway;
 }
 
-// experimental
-function ResultsPackage(microMilesPerMM, targetDistanceInMiles, mmsAwayFromTarget)
+function ResultsPackage(targetDistanceInMiles, sunMMSize)
 {
-    this.MicroMilesPerMM = microMilesPerMM;
-    this.MicroMilesPerMMFormatted = utilities.FormatWithCommas(microMilesPerMM, 2);
+    this.MicroMilesPerMM = utilities.CalculateMilesPerMM(sunMMSize);
+    this.MicroMilesPerMMFormatted = utilities.FormatWithCommas(this.MicroMilesPerMM, 2);
     this.TargetDistanceInMiles = targetDistanceInMiles;
     this.TargetDistanceInMilesFormatted = utilities.FormatWithCommas(targetDistanceInMiles, 2);
-    this.MMsAwayFromTarget = mmsAwayFromTarget;
-    this.MMsAwayFromTargetFormatted = utilities.FormatWithCommas(mmsAwayFromTarget, 2);
+    this.MMsAwayFromTarget = utilities.CalculateMMsAwayFromTarget(targetDistanceInMiles, this.MicroMilesPerMM);
+    this.MMsAwayFromTargetFormatted = utilities.FormatWithCommas(this.MMsAwayFromTarget, 2);
+    this.InchesAwayFromTarget = utilities.CalculateInchesAwayFromTarget(this.MMsAwayFromTarget);
+    this.InchesAwayFromTargetFormatted = utilities.FormatWithCommas(utilities.CalculateInchesAwayFromTarget(this.MMsAwayFromTarget),2);
+    this.FeetAwayFromTarget = utilities.CalculateFeetAwayFromTarget(this.MMsAwayFromTarget);
+    this.FeetAwayFromTargetFormatted = utilities.FormatWithCommas(utilities.CalculateFeetAwayFromTarget(this.MMsAwayFromTarget), 2);
+    this.UnitsBetweenSunAndTarget = utilities.CalculateUnitsBetweenSunAndTarget(targetDistanceInMiles, sunMMSize);
+    this.UnitsBetweenSunAndTargetFormatted = utilities.FormatWithCommas(utilities.CalculateUnitsBetweenSunAndTarget(targetDistanceInMiles, sunMMSize), 2);
 }
-
 
 
 class App extends React.Component
@@ -75,25 +76,29 @@ class App extends React.Component
         };
     }
 
-    SunSizeChanged = () =>
+    UpdateResults = () => 
     {
-        // grabbing vakue from drop down
+        // grabbing vakue from drop downs
         const sunSizeDropDown = document.getElementById("SunSizeSelectorDropDown");
         let sunSizeValue = parseInt(sunSizeDropDown.value);
         let selectedSunSize = sunSizes[sunSizeValue];
 
+        const targetDropDown = document.getElementById("TargetSelectorDropDown");
+        let selectedTargetValue = parseInt(targetDropDown.value);
+        let selectedTarget = targets[selectedTargetValue];
+
         // build new results
-        let newResults = new ResultsPackage(
-                                utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, selectedSunSize.MMSize),
-                                this.state.SelectedTarget.DistanceInMiles,
-                                utilities.CalculateMMsAwayFromTarget(this.state.SelectedTarget.DistanceInMiles, utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, selectedSunSize.MMSize)));
+        let newResults = new ResultsPackage(selectedTarget.DistanceInMiles, selectedSunSize.MMSize);
 
         // set states
         this.setState({ SelectedSunSize: selectedSunSize });
+        this.setState({ SelectedTarget: selectedTarget });
         this.setState({ ResultsPackage: newResults});
 
         // img management
-        utilities.HideSizeImages();
+        // this could be extracted
+        utilities.HideSizeImages();     // can be combined
+        utilities.HideTargetImages();   // can be combined
         switch (selectedSunSize.Index)
         {
             case 0:
@@ -111,27 +116,7 @@ class App extends React.Component
             default:
                 utilities.ShowImage("SaltImg");
         }
-    };
 
-    TargetChanged = () => {
-
-        // grabbing vakue from drop down
-        const targetDropDown = document.getElementById("TargetSelectorDropDown");
-        let selectedTargetValue = parseInt(targetDropDown.value);
-        let selectedTarget = targets[selectedTargetValue];
-
-        // build new results
-        let newResults = new ResultsPackage(
-            utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, this.state.SelectedSunSize.MMSize),
-            selectedTarget.DistanceInMiles,
-            utilities.CalculateMMsAwayFromTarget(selectedTarget.DistanceInMiles, utilities.CalculateMilesPerMM(constants.DiameterOfSunInMiles, this.state.SelectedSunSize.MMSize)));
-
-        // set states
-        this.setState({ SelectedTarget: selectedTarget });
-        this.setState({ ResultsPackage: newResults});
-
-        // img management
-        utilities.HideTargetImages();
         switch (selectedTarget.Index) {
             case 0:
                 utilities.ShowImage("EarthImg");
@@ -161,10 +146,10 @@ class App extends React.Component
                          <Header />
                          <div className="row">
                              <div className="col-6">
-                                <SizeSelector ChangeEvent={this.SunSizeChanged} />
+                                <SizeSelector ChangeEvent={this.UpdateResults} />
                              </div>
                             <div className="col-6">
-                                <TargetSelector ChangeEvent={this.TargetChanged} />
+                                <TargetSelector ChangeEvent={this.UpdateResults} />
                             </div>
                          </div>
                         <ResultsDisplay SunSize={this.state.SelectedSunSize} Target={this.state.SelectedTarget} ResultsPackage={this.state.ResultsPackage} />

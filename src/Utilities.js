@@ -72,8 +72,9 @@ class Utilities
         }
     };
 
-    CalculateMilesPerMM = (diameterOfSunInMiles, sunSizeInMM) => {
-        return diameterOfSunInMiles / sunSizeInMM;
+    // calculations
+    CalculateMilesPerMM = (sunSizeInMM) => {
+        return this.constants.DiameterOfSunInMiles / sunSizeInMM;
     };
 
     CalculateMMsAwayFromTarget = (targetDistanceInMiles, microMilesInMM) =>
