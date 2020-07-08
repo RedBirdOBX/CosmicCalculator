@@ -1,5 +1,10 @@
+import Constants from './Constants';
+
+
 class Utilities
 {
+    constants = new Constants();
+
     FormatWithCommas = (input, decimalPlaces) => {
         // only displays upto 2 decimal places due to the comma insertions.
 
@@ -65,6 +70,28 @@ class Utilities
             imageToShow.removeAttribute("class");
             imageToShow.setAttribute("class", "w-100");
         }
+    };
+
+    CalculateMilesPerMM = (diameterOfSunInMiles, sunSizeInMM) => {
+        return diameterOfSunInMiles / sunSizeInMM;
+    };
+
+    CalculateMMsAwayFromTarget = (targetDistanceInMiles, microMilesInMM) =>
+    {
+        return targetDistanceInMiles / microMilesInMM;
+    };
+
+    CalculateInchesAwayFromTarget = (mmsAwayFromTarget) => {
+        return mmsAwayFromTarget / this.constants.MMsInAnInch;
+    };
+
+    CalculateFeetAwayFromTarget = (mmsAwayFromTarget) => {
+        return (mmsAwayFromTarget / this.constants.MMsInAnInch) / this.constants.InchesInFoot;
+    };
+
+    CalculateUnitsBetweenSunAndTarget = (targetDistanceInMiles, sunSizeInMMs) =>
+    {
+        return (targetDistanceInMiles / (this.constants.DiameterOfSunInMiles / sunSizeInMMs)) * (sunSizeInMMs * 10);
     };
 };
 

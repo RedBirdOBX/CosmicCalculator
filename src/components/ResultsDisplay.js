@@ -8,6 +8,16 @@ class ResultsDisplay extends React.Component
 
     constants = new Constants();
     utilities = new Utilities();
+    diameterOfSunInMilesFormatted = this.utilities.FormatWithCommas(this.constants.DiameterOfSunInMiles, 0);
+    microMilesPerMM = this.utilities.CalculateMilesPerMM(this.constants.DiameterOfSunInMiles, this.props.SunSize.MMSize);
+    microMilesPerMMFormatted = this.utilities.FormatWithCommas(this.microMilesPerMM, 2);
+    mmsAwayFromTarget = this.utilities.CalculateMMsAwayFromTarget(this.props.Target.DistanceInMiles, this.microMilesPerMM);
+    mmsAwayFromTargetFormatted = this.utilities.FormatWithCommas(this.mmsAwayFromTarget, 2);
+    targetDistanceInMilesFormatted = this.utilities.FormatWithCommas(this.props.Target.DistanceInMiles, 2);
+    inchesAwayFromTargetFormatted = this.utilities.FormatWithCommas(this.utilities.CalculateInchesAwayFromTarget(this.mmsAwayFromTarget),2);
+    feetAwayFromTargetFormatted = this.utilities.FormatWithCommas(this.utilities.CalculateFeetAwayFromTarget(this.mmsAwayFromTarget), 2);
+    unitsBetweenSunAndTarget = this.utilities.CalculateUnitsBetweenSunAndTarget(this.props.Target.DistanceInMiles, this.props.SunSize.MMSize);
+    unitsBetweenSunAndTargetFormatted = this.utilities.FormatWithCommas(this.unitsBetweenSunAndTarget, 2);
 
 
     render()
@@ -15,26 +25,29 @@ class ResultsDisplay extends React.Component
         return (
             <div>
 
-                {/* <h3>The selected sun size is {this.props.SunSize.Name}</h3>
+                {/* <h3>The selected sun size is </h3>
 
                 <h3>The selected target is {this.props.Target.Name}</h3> */}
 
                 <p>
-                    Our sun is <strong>{this.utilities.FormatWithCommas(this.constants.DiameterOfSunInMiles, 0)} miles</strong> in diameter at it takes 109 Earth-sized
-                    objects, side by side, to cover the diameter of the sun.
-                    But what if the sun could be scaled down to the size of a <strong>xxx</strong> and
-                    the rest of the universe also scaled down accordingly? Our sun would
-                    be <strong>xxx mms</strong> in diameter which means each mm
-                    would be equal to <strong>xxx</strong> miles of normal scale.
+                    Our sun is <strong>{this.diameterOfSunInMilesFormatted} miles</strong> in diameter
+                    and it takes 109 Earth-sized objects, side by side, to cover the diameter of the sun.
                 </p>
 
                 <p>
-                    <strong>xxx</strong>, xxx, normally <strong>xxx</strong> miles
-                    from our sun, would be <strong>xxx</strong> mms away from our sun at this scale.
-                    That's <strong>xxx</strong> inches,
-                    <strong>xxx</strong> feet away from our sun at this scale.
-                    You could roughly put <strong>xxx</strong> xxx between the
-                    Sun and xxx.
+                    But what if the sun could be scaled down to the size of a <strong>{this.props.SunSize.Name}</strong> and
+                    the rest of the universe also scaled down accordingly? Our sun would be <strong>{this.props.SunSize.MMSize} mms</strong>
+                    &nbsp;in diameter which means each mm would be equal to&nbsp;<strong>{this.microMilesPerMMFormatted}</strong>
+                    &nbsp;miles of normal scale.
+                </p>
+
+                <p>
+                    <strong>{this.props.Target.Name}</strong>, {this.props.Target.Description},
+                    normally&nbsp;<strong>{this.targetDistanceInMilesFormatted}</strong> miles
+                    from our sun, would be <strong>{this.mmsAwayFromTargetFormatted}</strong> mms away from our sun at this scale.
+                    That's <strong>{this.inchesAwayFromTargetFormatted}</strong> inches, <strong>{this.feetAwayFromTargetFormatted}</strong>
+                    &nbsp;feet away from our sun at this scale. You could roughly put <strong>{this.unitsBetweenSunAndTargetFormatted}</strong>
+                    &nbsp;{this.props.SunSize.PluralName} between the Sun and {this.props.Target.Name}.
                 </p>
 
                 {/* <p>
