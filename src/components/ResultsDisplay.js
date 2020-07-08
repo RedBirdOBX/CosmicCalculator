@@ -9,10 +9,10 @@ class ResultsDisplay extends React.Component
     constants = new Constants();
     utilities = new Utilities();
     diameterOfSunInMilesFormatted = this.utilities.FormatWithCommas(this.constants.DiameterOfSunInMiles, 0);
-    microMilesPerMM = this.utilities.CalculateMilesPerMM(this.constants.DiameterOfSunInMiles, this.props.SunSize.MMSize);
-    microMilesPerMMFormatted = this.utilities.FormatWithCommas(this.microMilesPerMM, 2);
-    mmsAwayFromTarget = this.utilities.CalculateMMsAwayFromTarget(this.props.Target.DistanceInMiles, this.microMilesPerMM);
-    mmsAwayFromTargetFormatted = this.utilities.FormatWithCommas(this.mmsAwayFromTarget, 2);
+    //microMilesPerMM = this.utilities.CalculateMilesPerMM(this.constants.DiameterOfSunInMiles, this.props.SunSize.MMSize);
+    //microMilesPerMMFormatted = this.utilities.FormatWithCommas(this.microMilesPerMM, 2);
+    // mmsAwayFromTarget = this.utilities.CalculateMMsAwayFromTarget(this.props.Target.DistanceInMiles, this.microMilesPerMM);
+    // mmsAwayFromTargetFormatted = this.utilities.FormatWithCommas(this.mmsAwayFromTarget, 2);
     targetDistanceInMilesFormatted = this.utilities.FormatWithCommas(this.props.Target.DistanceInMiles, 2);
     inchesAwayFromTargetFormatted = this.utilities.FormatWithCommas(this.utilities.CalculateInchesAwayFromTarget(this.mmsAwayFromTarget),2);
     feetAwayFromTargetFormatted = this.utilities.FormatWithCommas(this.utilities.CalculateFeetAwayFromTarget(this.mmsAwayFromTarget), 2);
@@ -37,14 +37,14 @@ class ResultsDisplay extends React.Component
                 <p>
                     But what if the sun could be scaled down to the size of a <strong>{this.props.SunSize.Name}</strong> and
                     the rest of the universe also scaled down accordingly? Our sun would be <strong>{this.props.SunSize.MMSize} mms</strong>
-                    &nbsp;in diameter which means each mm would be equal to&nbsp;<strong>{this.microMilesPerMMFormatted}</strong>
+                    &nbsp;in diameter which means each mm would be equal to&nbsp;<strong>{this.props.ResultsPackage.MicroMilesPerMMFormatted}</strong>
                     &nbsp;miles of normal scale.
                 </p>
 
                 <p>
                     <strong>{this.props.Target.Name}</strong>, {this.props.Target.Description},
-                    normally&nbsp;<strong>{this.targetDistanceInMilesFormatted}</strong> miles
-                    from our sun, would be <strong>{this.mmsAwayFromTargetFormatted}</strong> mms away from our sun at this scale.
+                    normally&nbsp;<strong>{this.props.ResultsPackage.TargetDistanceInMilesFormatted}</strong> miles
+                    from our sun, would be xx<strong>{this.mmsAwayFromTargetFormatted}</strong>xx mms away from our sun at this scale.
                     That's <strong>{this.inchesAwayFromTargetFormatted}</strong> inches, <strong>{this.feetAwayFromTargetFormatted}</strong>
                     &nbsp;feet away from our sun at this scale. You could roughly put <strong>{this.unitsBetweenSunAndTargetFormatted}</strong>
                     &nbsp;{this.props.SunSize.PluralName} between the Sun and {this.props.Target.Name}.
