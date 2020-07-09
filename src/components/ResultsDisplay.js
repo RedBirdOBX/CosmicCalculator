@@ -20,7 +20,7 @@ class ResultsDisplay extends React.Component
 
                 <p>
                     If the sun could be scaled down to the size of a <strong>{this.props.Results.SelectedSunSize.Name}</strong> and
-                    the rest of the universe also scaled down porportionately, our sun would be <strong>{this.props.Results.SelectedSunSize.MMSize} mms</strong>
+                    the rest of the universe also scaled down proportionally, our sun would be <strong>{this.props.Results.SelectedSunSize.MMSize} mms</strong>
                     &nbsp;in diameter. This means each millimeter would be equal to&nbsp;<strong>{this.props.Results.MicroMilesPerMMFormatted}</strong>
                     &nbsp;miles in normal space.
                 </p>
