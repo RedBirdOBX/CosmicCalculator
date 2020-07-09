@@ -20,7 +20,7 @@ class Utilities
         return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
-    HideSizeImages = () =>
+    HideAllImages = () =>
     {
         let saltImg = document.getElementById("SaltImg");
         saltImg.removeAttribute("class");
@@ -37,10 +37,7 @@ class Utilities
         let basketballImg = document.getElementById("BasketballImg");
         basketballImg.removeAttribute("class");
         basketballImg.setAttribute("class", "d-none");
-    };
 
-    HideTargetImages = () =>
-    {
         let earthImg = document.getElementById("EarthImg");
         earthImg.removeAttribute("class");
         earthImg.setAttribute("class", "d-none");
@@ -60,6 +57,48 @@ class Utilities
         let polarisImg = document.getElementById("PolarisImg");
         polarisImg.removeAttribute("class");
         polarisImg.setAttribute("class", "d-none");
+    };
+
+    ShowCorrectImages = (sunSizeValue, selectedTargetValue) => 
+    {
+        switch (sunSizeValue)
+        {
+            case 0:
+                this.ShowImage("SaltImg");
+                break;
+            case 1:
+                this.ShowImage("BBImg");
+                break;
+            case 2:
+                this.ShowImage("GolfBallImg");
+                break;
+            case 3:
+                this.ShowImage("BasketballImg");
+                break;
+            default:
+                this.ShowImage("SaltImg");
+        }
+
+        switch (selectedTargetValue) 
+        {
+            case 0:
+                this.ShowImage("EarthImg");
+                break;
+            case 1:
+                this.ShowImage("JupiterImg");
+                break;
+            case 2:
+                this.ShowImage("NeptuneImg");
+                break;
+            case 3:
+                this.ShowImage("AlphaCentariImg");
+                break;
+            case 4:
+                this.ShowImage("PolarisImg");
+                break;
+            default:
+                this.ShowImage("EarthImg");
+        }
     };
 
     ShowImage = (imageId) =>

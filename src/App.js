@@ -27,7 +27,7 @@ let alphaCentari = new Target(3, "Alpha Centari", "our closest star", (constants
 let polaris = new Target(4, "Polaris", "also known as the 'North Star'", (constants.MilesInALightYear * 434));
 targets.push(earth, jupiter, neptune, alphaCentari, polaris);
 
-let defaultResultsPackage = new ResultsPackage(earth.DistanceInMiles, grainOfSalt.MMSize);
+let defaultResults = new Results(grainOfSalt, earth);
 
 // global functions
 function SunSize(index, name, pluralName, mmSize, imgName)
@@ -46,22 +46,25 @@ function Target(index, name, description, milesAway) {
     this.DistanceInMiles = milesAway;
 }
 
-function ResultsPackage(targetDistanceInMiles, sunMMSize)
+function Results(selectedSunSize, selectedTarget)
 {
-    this.MicroMilesPerMM = utilities.CalculateMilesPerMM(sunMMSize);
+    this.DiameterOfSunInMiles = constants.DiameterOfSunInMiles;
+    this.DiameterOfSunInMilesFormatted = utilities.FormatWithCommas(this.DiameterOfSunInMiles, 0);
+    this.SelectedSunSize = selectedSunSize;
+    this.SelectedTarget = selectedTarget;
+    this.MicroMilesPerMM = utilities.CalculateMilesPerMM(selectedSunSize.MMSize);
     this.MicroMilesPerMMFormatted = utilities.FormatWithCommas(this.MicroMilesPerMM, 2);
-    this.TargetDistanceInMiles = targetDistanceInMiles;
-    this.TargetDistanceInMilesFormatted = utilities.FormatWithCommas(targetDistanceInMiles, 2);
-    this.MMsAwayFromTarget = utilities.CalculateMMsAwayFromTarget(targetDistanceInMiles, this.MicroMilesPerMM);
+    this.TargetDistanceInMiles = selectedTarget.DistanceInMiles;
+    this.TargetDistanceInMilesFormatted = utilities.FormatWithCommas(selectedTarget.DistanceInMiles, 2);
+    this.MMsAwayFromTarget = utilities.CalculateMMsAwayFromTarget(selectedTarget.DistanceInMiles, this.MicroMilesPerMM);
     this.MMsAwayFromTargetFormatted = utilities.FormatWithCommas(this.MMsAwayFromTarget, 2);
     this.InchesAwayFromTarget = utilities.CalculateInchesAwayFromTarget(this.MMsAwayFromTarget);
     this.InchesAwayFromTargetFormatted = utilities.FormatWithCommas(utilities.CalculateInchesAwayFromTarget(this.MMsAwayFromTarget),2);
     this.FeetAwayFromTarget = utilities.CalculateFeetAwayFromTarget(this.MMsAwayFromTarget);
     this.FeetAwayFromTargetFormatted = utilities.FormatWithCommas(utilities.CalculateFeetAwayFromTarget(this.MMsAwayFromTarget), 2);
-    this.UnitsBetweenSunAndTarget = utilities.CalculateUnitsBetweenSunAndTarget(targetDistanceInMiles, sunMMSize);
-    this.UnitsBetweenSunAndTargetFormatted = utilities.FormatWithCommas(utilities.CalculateUnitsBetweenSunAndTarget(targetDistanceInMiles, sunMMSize), 2);
+    this.UnitsBetweenSunAndTarget = utilities.CalculateUnitsBetweenSunAndTarget(selectedTarget.DistanceInMiles, selectedSunSize.MMSize);
+    this.UnitsBetweenSunAndTargetFormatted = utilities.FormatWithCommas(utilities.CalculateUnitsBetweenSunAndTarget(selectedTarget.DistanceInMiles, selectedSunSize.MMSize), 2);
 }
-
 
 class App extends React.Component
 {
@@ -69,10 +72,7 @@ class App extends React.Component
         super();
         this.state =
         {
-            // defaults
-            SelectedSunSize: sunSizes[0],
-            SelectedTarget: targets[0],
-            ResultsPackage: defaultResultsPackage,
+            Results: defaultResults,
         };
     }
 
@@ -88,54 +88,13 @@ class App extends React.Component
         let selectedTarget = targets[selectedTargetValue];
 
         // build new results
-        let newResults = new ResultsPackage(selectedTarget.DistanceInMiles, selectedSunSize.MMSize);
+        let newResults = new Results(selectedSunSize, selectedTarget);
 
-        // set states
-        this.setState({ SelectedSunSize: selectedSunSize });
-        this.setState({ SelectedTarget: selectedTarget });
-        this.setState({ ResultsPackage: newResults});
+        // set new state
+        this.setState({ Results: newResults});
 
-        // img management
-        // this could be extracted
-        utilities.HideSizeImages();     // can be combined
-        utilities.HideTargetImages();   // can be combined
-        switch (selectedSunSize.Index)
-        {
-            case 0:
-                utilities.ShowImage("SaltImg");
-                break;
-            case 1:
-                utilities.ShowImage("BBImg");
-                break;
-            case 2:
-                utilities.ShowImage("GolfBallImg");
-                break;
-            case 3:
-                utilities.ShowImage("BasketballImg");
-                break;
-            default:
-                utilities.ShowImage("SaltImg");
-        }
-
-        switch (selectedTarget.Index) {
-            case 0:
-                utilities.ShowImage("EarthImg");
-                break;
-            case 1:
-                utilities.ShowImage("JupiterImg");
-                break;
-            case 2:
-                utilities.ShowImage("NeptuneImg");
-                break;
-            case 3:
-                utilities.ShowImage("AlphaCentariImg");
-                break;
-            case 4:
-                utilities.ShowImage("PolarisImg");
-                break;
-            default:
-                utilities.ShowImage("EarthImg");
-        }
+        utilities.HideAllImages();
+        utilities.ShowCorrectImages(sunSizeValue, selectedTargetValue);   
     };
 
     render() {
@@ -152,7 +111,7 @@ class App extends React.Component
                                 <TargetSelector ChangeEvent={this.UpdateResults} />
                             </div>
                          </div>
-                        <ResultsDisplay SunSize={this.state.SelectedSunSize} Target={this.state.SelectedTarget} ResultsPackage={this.state.ResultsPackage} />
+                        <ResultsDisplay Results={this.state.Results} />
                      </div>
                  </div>
              </div>

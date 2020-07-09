@@ -25,11 +25,11 @@ class TargetSelector extends React.Component
                 <div className="form-group row">
                     <div className="col-6">
                         <select id="TargetSelectorDropDown" className="form-control" onChange={this.props.ChangeEvent}>
-                            <option value="0">Earth (94,437,000 miles)</option>
-                            <option value="1">Jupiter (481,000,000 miles)</option>
-                            <option value="2">Neptune (2,793,000,000 miles)</option>
-                            <option value="3">Alpha Centari (4.37 light years)</option>
-                            <option value="4">Polaris "North Star" (434 light years)</option>
+                            <option value="0">Earth</option>
+                            <option value="1">Jupiter</option>
+                            <option value="2">Neptune</option>
+                            <option value="3">Alpha Centari</option>
+                            <option value="4">Polaris ("North Star")</option>
                         </select>
                     </div>
                 </div>

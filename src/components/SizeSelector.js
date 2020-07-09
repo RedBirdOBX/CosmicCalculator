@@ -10,7 +10,7 @@ class SizeSelector extends React.Component {
             <div id="SizeContainer">
                 <div className="row">
                     <div className="col-6 offset-6">
-                        <div className="text-center">Pick an object</div>
+                        <div className="text-center">Pick the size of the sun</div>
                         <img id="SaltImg" src={GrainOfSaltImg} alt="size of sun" className="w-100" />
                         <img id="BBImg" src={BBPelletImg} alt="size of sun" className="d-none" />
                         <img id="GolfBallImg" src={GolfBallImg} alt="size of sun" className="d-none" />
