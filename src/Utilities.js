@@ -129,6 +129,11 @@ class Utilities
         return (mmsAwayFromTarget / this.constants.MMsInAnInch) / this.constants.InchesInFoot;
     };
 
+    CalculateMilesAwayFromTarget = (mmsAwayFromTarget) => 
+    {
+        return ((mmsAwayFromTarget / this.constants.MMsInAnInch) / this.constants.InchesInFoot) / this.constants.FeetInAMile;
+    };
+
     CalculateUnitsBetweenSunAndTarget = (targetDistanceInMiles, sunSizeInMMs) =>
     {
         return (targetDistanceInMiles / (this.constants.DiameterOfSunInMiles / sunSizeInMMs)) * (sunSizeInMMs * 10);

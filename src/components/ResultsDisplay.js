@@ -4,11 +4,20 @@ class ResultsDisplay extends React.Component
 {
     render()
     {
-
-        let earthInvisible = "";
-        if (this.props.Results.SelectedSunSize.Index===0 && this.props.Results.SelectedTarget.Index===0)
+        let earthInvisibleMsg = "";
+        if (this.props.Results.SelectedSunSize.Index === 0 && this.props.Results.SelectedTarget.Index < 3)
         {
-            earthInvisible = "Earth at this scale would be invisible to the naked eye.";
+            earthInvisibleMsg = `${this.props.Results.SelectedTarget.Name} at this scale, would be invisible to the naked eye.`;
+        }
+
+        let farAwayMsg = "";
+        if (this.props.Results.MilesAwayFromTarget > 1)
+        {
+            farAwayMsg = `${this.props.Results.MilesAwayFromTargetFormatted} miles`; 
+        }
+        else
+        {
+            farAwayMsg = `${this.props.Results.InchesAwayFromTargetFormatted} inches`; 
         }
 
         return (
@@ -28,14 +37,18 @@ class ResultsDisplay extends React.Component
                 <p class="lead">
                     <span class="text-info">{this.props.Results.SelectedTarget.Name}</span>, {this.props.Results.SelectedTarget.Description},
                     normally&nbsp;<span class="text-info">{this.props.Results.TargetDistanceInMilesFormatted} miles</span>&nbsp; 
-                    from our sun, would be <span class="text-info">{this.props.Results.MMsAwayFromTargetFormatted} mms</span> away from our sun at this scale.
-                    That's <span class="text-info">{this.props.Results.InchesAwayFromTargetFormatted}</span> inches ({this.props.Results.FeetAwayFromTargetFormatted} feet) 
-                    away from our sun at this scale. You could put (approximately) <span class="text-info">{this.props.Results.UnitsBetweenSunAndTargetFormatted}</span>
+                    from our sun, would be <span class="text-info">{this.props.Results.MMsAwayFromTargetFormatted} mms</span> away from our 
+                    sun at this scale.&nbsp;That's <span class="text-info">{farAwayMsg}</span>&nbsp;
+                    ({this.props.Results.FeetAwayFromTargetFormatted} feet) away from our sun at this scale.
+                </p>
+
+                <p class="lead">
+                    You could put (approximately) <span class="text-info">{this.props.Results.UnitsBetweenSunAndTargetFormatted}</span>
                     &nbsp;{this.props.Results.SelectedSunSize.PluralName} between our scaled down Sun and {this.props.Results.SelectedTarget.Name}.
                 </p>
 
                 <p class="lead text-info">
-                    {earthInvisible}
+                    {earthInvisibleMsg}
                 </p>
             </div>
         );

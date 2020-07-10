@@ -62,6 +62,8 @@ function Results(selectedSunSize, selectedTarget)
     this.InchesAwayFromTargetFormatted = utilities.FormatWithCommas(utilities.CalculateInchesAwayFromTarget(this.MMsAwayFromTarget),2);
     this.FeetAwayFromTarget = utilities.CalculateFeetAwayFromTarget(this.MMsAwayFromTarget);
     this.FeetAwayFromTargetFormatted = utilities.FormatWithCommas(utilities.CalculateFeetAwayFromTarget(this.MMsAwayFromTarget), 2);
+    this.MilesAwayFromTarget = utilities.CalculateMilesAwayFromTarget(this.MMsAwayFromTarget);
+    this.MilesAwayFromTargetFormatted = utilities.FormatWithCommas(this.MilesAwayFromTarget, 2);
     this.UnitsBetweenSunAndTarget = utilities.CalculateUnitsBetweenSunAndTarget(selectedTarget.DistanceInMiles, selectedSunSize.MMSize);
     this.UnitsBetweenSunAndTargetFormatted = utilities.FormatWithCommas(utilities.CalculateUnitsBetweenSunAndTarget(selectedTarget.DistanceInMiles, selectedSunSize.MMSize), 2);
 }
