@@ -9,8 +9,8 @@ class SizeSelector extends React.Component {
         return (
             <div id="SizeContainer">
                 <div className="row">
-                    <div className="col-6 offset-6">
-                        <div className="text-center">Pick the size of the sun</div>
+                    <div className="col-xl-6 offset-xl-6 col-lg-9 offset-lg-3 col-md-12">
+                        <div className="text-center">Select the size of the sun</div>
                         <img id="SaltImg" src={GrainOfSaltImg} alt="size of sun" className="w-100" />
                         <img id="BBImg" src={BBPelletImg} alt="size of sun" className="d-none" />
                         <img id="GolfBallImg" src={GolfBallImg} alt="size of sun" className="d-none" />
@@ -18,7 +18,7 @@ class SizeSelector extends React.Component {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <div className="col-6 offset-6">
+                    <div className="col-xl-6 offset-xl-6 col-lg-9 offset-lg-3 col-md-12">
                         <select id="SunSizeSelectorDropDown" className="form-control" onChange={this.props.ChangeEvent}>
                             <option value="0">Grain of Salt (0.33 mm)</option>
                             <option value="1">BB Pellet (4.43 mm)</option>
