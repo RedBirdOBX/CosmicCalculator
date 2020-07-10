@@ -1,4 +1,5 @@
 import Constants from './Constants';
+import { constants } from 'buffer';
 
 
 class Utilities
@@ -137,6 +138,15 @@ class Utilities
     CalculateUnitsBetweenSunAndTarget = (targetDistanceInMiles, sunSizeInMMs) =>
     {
         return (targetDistanceInMiles / (this.constants.DiameterOfSunInMiles / sunSizeInMMs)) * (sunSizeInMMs * 10);
+    };
+
+    ScaledFeetLightTravelsInADay = (sunSizeInMM) => 
+    {
+        let milesLightTravelsInADay = (((this.constants.SpeedOfLight * this.constants.SecondsPerMinutes) * this.constants.MinutesInAHour) * this.constants.HoursInADay);
+        let milesPerMM = this.CalculateMilesPerMM(sunSizeInMM);
+        let mmsTraveledInADay = milesLightTravelsInADay / milesPerMM;
+        let feetLighTravelsInADay = ((mmsTraveledInADay / this.constants.MMsPerInch) / this.constants.InchesInFoot);
+        return feetLighTravelsInADay;
     };
 };
 

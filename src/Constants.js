@@ -6,6 +6,11 @@ class Constants
     MMsInAnInch = 25.4;
     InchesInFoot = 12;
     FeetInAMile = 5820;
+    DaysInAYear = 365.24;
+    SecondsPerMinutes = 60;
+    MinutesInAHour = 60;
+    HoursInADay = 24;
+    SpeedOfLight = 186000;
 }
 
 export default Constants;

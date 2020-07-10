@@ -66,6 +66,8 @@ function Results(selectedSunSize, selectedTarget)
     this.MilesAwayFromTargetFormatted = utilities.FormatWithCommas(this.MilesAwayFromTarget, 2);
     this.UnitsBetweenSunAndTarget = utilities.CalculateUnitsBetweenSunAndTarget(selectedTarget.DistanceInMiles, selectedSunSize.MMSize);
     this.UnitsBetweenSunAndTargetFormatted = utilities.FormatWithCommas(utilities.CalculateUnitsBetweenSunAndTarget(selectedTarget.DistanceInMiles, selectedSunSize.MMSize), 2);
+    this.ScaledFeetLightTravelsInADay = utilities.ScaledFeetLightTravelsInADay(selectedSunSize.MMSize);
+    this.ScaledFeetLightTravelsInADayFormatted = utilities.FormatWithCommas(this.ScaledFeetLightTravelsInADay, 2);    
 }
 
 class App extends React.Component
