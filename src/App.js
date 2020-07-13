@@ -50,12 +50,17 @@ function Results(selectedSunSize, selectedTarget)
 {
     this.DiameterOfSunInMiles = constants.DiameterOfSunInMiles;
     this.DiameterOfSunInMilesFormatted = utilities.FormatWithCommas(this.DiameterOfSunInMiles, 0);
+    this.MilesInALightYear = constants.MilesInALightYear;
+    this.MilesInALightYearFormatted = utilities.FormatWithCommas(this.MilesInALightYear, 0);
+    this.SpeedOfLight = constants.SpeedOfLight;
+    this.SpeedOfLightFormatted = `${utilities.FormatWithCommas(this.SpeedOfLight, 0)} miles per second`;
     this.SelectedSunSize = selectedSunSize;
     this.SelectedTarget = selectedTarget;
     this.MicroMilesPerMM = utilities.CalculateMilesPerMM(selectedSunSize.MMSize);
     this.MicroMilesPerMMFormatted = utilities.FormatWithCommas(this.MicroMilesPerMM, 2);
     this.TargetDistanceInMiles = selectedTarget.DistanceInMiles;
     this.TargetDistanceInMilesFormatted = utilities.FormatWithCommas(selectedTarget.DistanceInMiles, 2);
+    this.MMsPerInch = constants.MMsPerInch;
     this.MMsAwayFromTarget = utilities.CalculateMMsAwayFromTarget(selectedTarget.DistanceInMiles, this.MicroMilesPerMM);
     this.MMsAwayFromTargetFormatted = utilities.FormatWithCommas(this.MMsAwayFromTarget, 2);
     this.InchesAwayFromTarget = utilities.CalculateInchesAwayFromTarget(this.MMsAwayFromTarget);
@@ -67,7 +72,7 @@ function Results(selectedSunSize, selectedTarget)
     this.UnitsBetweenSunAndTarget = utilities.CalculateUnitsBetweenSunAndTarget(selectedTarget.DistanceInMiles, selectedSunSize.MMSize);
     this.UnitsBetweenSunAndTargetFormatted = utilities.FormatWithCommas(utilities.CalculateUnitsBetweenSunAndTarget(selectedTarget.DistanceInMiles, selectedSunSize.MMSize), 2);
     this.ScaledFeetLightTravelsInADay = utilities.ScaledFeetLightTravelsInADay(selectedSunSize.MMSize);
-    this.ScaledFeetLightTravelsInADayFormatted = utilities.FormatWithCommas(this.ScaledFeetLightTravelsInADay, 2);    
+    this.ScaledFeetLightTravelsInADayFormatted = utilities.FormatWithCommas(this.ScaledFeetLightTravelsInADay, 2);
 }
 
 class App extends React.Component
@@ -80,7 +85,7 @@ class App extends React.Component
         };
     }
 
-    UpdateResults = () => 
+    UpdateResults = () =>
     {
         // grabbing vakue from drop downs
         const sunSizeDropDown = document.getElementById("SunSizeSelectorDropDown");
@@ -98,7 +103,7 @@ class App extends React.Component
         this.setState({ Results: newResults});
 
         utilities.HideAllImages();
-        utilities.ShowCorrectImages(sunSizeValue, selectedTargetValue);   
+        utilities.ShowCorrectImages(sunSizeValue, selectedTargetValue);
     };
 
     render() {

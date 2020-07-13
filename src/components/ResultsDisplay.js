@@ -13,11 +13,11 @@ class ResultsDisplay extends React.Component
         let farAwayMsg = "";
         if (this.props.Results.MilesAwayFromTarget > 1)
         {
-            farAwayMsg = `${this.props.Results.MilesAwayFromTargetFormatted} miles`; 
+            farAwayMsg = `${this.props.Results.MilesAwayFromTargetFormatted} miles`;
         }
         else
         {
-            farAwayMsg = `${this.props.Results.InchesAwayFromTargetFormatted} inches`; 
+            farAwayMsg = `${this.props.Results.InchesAwayFromTargetFormatted} inches`;
         }
 
         return (
@@ -36,7 +36,7 @@ class ResultsDisplay extends React.Component
 
                 <p class="lead">
                     <span class="text-info">{this.props.Results.SelectedTarget.Name}</span>, {this.props.Results.SelectedTarget.Description},
-                    normally&nbsp;<span class="text-info">{this.props.Results.TargetDistanceInMilesFormatted} miles</span>&nbsp; 
+                    normally&nbsp;<span class="text-info">{this.props.Results.TargetDistanceInMilesFormatted} miles</span>&nbsp;
                     from our sun:&nbsp;
                 </p>
 
@@ -47,9 +47,31 @@ class ResultsDisplay extends React.Component
                     &nbsp;{this.props.Results.SelectedSunSize.PluralName} between our scaled-down Sun and {this.props.Results.SelectedTarget.Name}.</li>
                 </ul>
 
-                <p class="lead text-info text-center">
+                <p class="lead text-info text-center mb-5">
                     {earthInvisibleMsg}
                 </p>
+
+                <table class="mt-5 table table-dark table-sm table-hover col-6 d-none">
+                    <caption>Data</caption>
+                    <tbody>
+                        <tr>
+                            <td>Diameter Of Sun (miles)</td>
+                            <td>{this.props.Results.DiameterOfSunInMilesFormatted}</td>
+                        </tr>
+                        <tr>
+                            <td>Miles per Light Year</td>
+                            <td>{this.props.Results.MilesInALightYearFormatted}</td>
+                        </tr>
+                        <tr>
+                            <td>Speed Of Light</td>
+                            <td>{this.props.Results.SpeedOfLightFormatted}</td>
+                        </tr>
+                        <tr>
+                            <td>mms per inch</td>
+                            <td>{this.props.Results.MMsPerInch}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         );
     }
